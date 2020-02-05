@@ -1,1 +1,1 @@
-# mentor-app
+# mentor finder-app
