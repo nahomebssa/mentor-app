@@ -8,7 +8,9 @@ function FirebaseInit()
 }
 
 
-function isSignedIn()
+function isSignedIn() {
+
+}
 function handleCreateUser(user = {})
 {
     // sign out the user
@@ -23,6 +25,18 @@ function handleSignOut(user = {})
 }
 
 
+
+class FirebaseManager {
+
+    _init() {
+        
+    }
+
+    constructor() {
+
+    }
+
+}
 
 
 (function() {
