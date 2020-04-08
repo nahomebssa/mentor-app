@@ -2,19 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Mentor Finder</title>
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/app.css" type="text/css">
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>    
 </head>
 <body>
     
     <div id="root">
-        
+        <!-- This will be filled in by React -->
     </div>
-
     
-
-    <script src="./js/index.js"></script>
+    <script type="text/babel" src="./js/src/models/User.js"></script>
+    <script type="text/babel" src="./js/src/models/Database.js"></script>
+    <script type="text/babel" src="./js/src/models/Login.js"></script>
+    <script type="text/babel" src="./js/src/models/Main.js"></script>
+    
+    <script type="text/babel" src="./js/src/controllers/index.js"></script>
+    
+    <script type="text/babel" src="./js/src/views/ProfileView.js"></script>
+    <script type="text/babel" src="./js/src/views/InboxView.js"></script>
+    <script type="text/babel" src="./js/src/views/ExploreView.js"></script>
+    <script type="text/babel" src="./js/src/views/HomeView.js"></script>
+    
+    <script type="text/babel" src="./js/src/index.js"></script>
 
 </body>
 </html>
