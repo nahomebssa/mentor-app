@@ -1,0 +1,24 @@
+/* For mobile devices */
+@media only screen and (max-width: 600px)
+{
+
+	.App main {
+		background: #000;
+	}
+
+	.title {
+		margin: 20px;
+		font-size: 42px;
+	}
+	
+	input[type="text"],
+	input[type="email"],
+	input[type="password"],
+	.input-mobile
+	{
+		padding: 10px;
+		// background: red !important;
+	}
+	
+	
+}

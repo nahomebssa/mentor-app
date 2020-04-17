@@ -4,31 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Mentor Finder</title>
+    <link rel="stylesheet" href="./css/mobile.css" type="text/css">
     <link rel="stylesheet" href="./css/app.css" type="text/css">
+    
+    <!-- Babel (for parsing React JSX) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- React, ReactDOM, & React Router -->
     <script crossorigin src="https://unpkg.com/react/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>    
+	<script crossorigin src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>    
+	
+	<!-- Material Icons -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-    
+	<a id="btn-refresh" href="http://localhost:5501/dist/app.html">
+		<i class="material-icons">refresh</i>
+	</a>
     <div id="root">
         <!-- This will be filled in by React -->
-    </div>
-    
+	</div>
+	
+
+	<!-- Firebase -->
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+	<script>
+		// Your web app's Firebase configuration
+		var firebaseConfig = {
+			apiKey: "AIzaSyCmE6rP0Vsuherr46YH8-OQ_SoRXyp6_gg",
+			authDomain: "mentor-finder-app.firebaseapp.com",
+			databaseURL: "https://mentor-finder-app.firebaseio.com",
+			projectId: "mentor-finder-app",
+			storageBucket: "mentor-finder-app.appspot.com",
+			messagingSenderId: "223437150523",
+			appId: "1:223437150523:web:3885fb7f8739c0d1a23f1e",
+			measurementId: "G-KL1Q7SGE9T"
+		};
+		// Initialize Firebase
+		firebase.initializeApp(firebaseConfig);
+	</script>
+
+
+	<!-- Javascript helpers -->
+    <script type="text/babel" src="./js/src/utils.js"></script>
+	
+	<!-- Models -->
     <script type="text/babel" src="./js/src/models/User.js"></script>
     <script type="text/babel" src="./js/src/models/Database.js"></script>
     <script type="text/babel" src="./js/src/models/Login.js"></script>
     <script type="text/babel" src="./js/src/models/Main.js"></script>
-    
+	
+	<!-- Controllers -->
+    <script type="text/babel" src="./js/src/controllers/FirebaseManager.js"></script>
+    <script type="text/babel" src="./js/src/controllers/AuthenticationManager.js"></script>
+    <script type="text/babel" src="./js/src/controllers/InboxManager.js"></script>
+    <script type="text/babel" src="./js/src/controllers/ProfileManager.js"></script>
+    <script type="text/babel" src="./js/src/controllers/SearchManager.js"></script>
     <script type="text/babel" src="./js/src/controllers/index.js"></script>
-    
+	
+	<!-- Views -->
     <script type="text/babel" src="./js/src/views/ProfileView.js"></script>
     <script type="text/babel" src="./js/src/views/InboxView.js"></script>
     <script type="text/babel" src="./js/src/views/ExploreView.js"></script>
     <script type="text/babel" src="./js/src/views/HomeView.js"></script>
-    
-    <script type="text/babel" src="./js/src/index.js"></script>
+	
+	<!-- main js (react) file, starting point -->
+	<script type="text/babel" src="./js/src/index.js"></script>
+	
+	<!-- <F5> to reload project -->
+	<!-- <script>
+		(function() {
+			window.addEventListener("DOMContentLoaded", function(event) {
+				window.addEventListener("keydown", function(event) {
+					event.preventDefault();
+					if (event.which == 116) { // F5
+						// alert("going home...")
+						window.location.href = ("http://localhost:5501/dist/app.html")
+					}
+				})
+			})
+		})()
+	</script> -->
 
 </body>
 </html>

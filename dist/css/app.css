@@ -1,48 +1,115 @@
 /* Reset */
-* { margin: 0; padding: 0; }
-html, body { height: 100%; }
+* {
+  margin: 0;
+  padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: sans-serif; }
 
 /* HTML DOM body */
-body { display: flex; }
+body {
+  display: flex; }
 
 /* React DOM body */
 #root {
-	flex: 1;
-	display: flex;
-}
+  flex: 1;
+  display: flex; }
 
 /* App component*/
 .App {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-}
+  flex: 1;
+  display: flex;
+  flex-direction: column; }
+  .App main {
+    flex: 1;
+    height: 100%;
+    background-color: #fafafa; }
+  .App nav.App-Tabs {
+    opacity: 1;
+    background-color: #f5f5f5;
+    border-top: 1px solid #eee; }
+    .App nav.App-Tabs ul {
+      list-style: none;
+      display: flex; }
+      .App nav.App-Tabs ul li {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* border: 3px solid #333; */
+        /* border-left: none; */ }
+        .App nav.App-Tabs ul li a {
+          width: 100%;
+          text-decoration: none;
+          padding: 2vh 20px;
+          text-align: center; }
 
-/* Main */
-.App main {
-	flex: 1;
-	height: 100%;
-}
+/**
+* ProfileView
+*/
+.ProfileView .profile-form {
+  display: flex;
+  flex-direction: column; }
+  .ProfileView .profile-form textarea {
+    min-height: 30vh; }
+  .ProfileView .profile-form .btn {
+    padding: 20px; }
 
-/* Nav Tabs */
-.App nav {
-	opacity: 1;
-}
-.App nav ul {
-	list-style: none;
-	display: flex;
-}
-.App nav ul li {
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border: 3px solid #333;
-	border-left: none;
-}
-.App nav ul li a {
-	width: 100%;
-	text-decoration: none;
-	padding: 20px;
-	text-align: center;
-}
+/**
+* AuthenticationView
+*/
+.AuthenticationView {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #FE4; }
+  .AuthenticationView .title {
+    text-align: center; }
+  .AuthenticationView .auth-form {
+    display: flex;
+    flex-direction: column; }
+    .AuthenticationView .auth-form div, .AuthenticationView .auth-form form {
+      display: flex;
+      flex-direction: column; }
+      .AuthenticationView .auth-form div input, .AuthenticationView .auth-form form input {
+        margin: 10px 20px; }
+      .AuthenticationView .auth-form div input[type="submit"],
+      .AuthenticationView .auth-form div input[type="button"], .AuthenticationView .auth-form form input[type="submit"],
+      .AuthenticationView .auth-form form input[type="button"] {
+        padding: 10px;
+        min-width: 30vw;
+        align-self: center; }
+    .AuthenticationView .auth-form.--sign-in a[href$="sign-up"] {
+      align-self: center;
+      text-decoration: none; }
+
+/**
+* Misc.
+*/
+body #btn-refresh {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border-radius: 100%;
+  box-shadow: 0px 2px 0px 0 rgba(0, 0, 0, 0.5);
+  padding: 1vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: orange;
+  color: #703;
+  font-weight: 900;
+  text-decoration: none;
+  z-index: 1000; }
+
+body .btn {
+  border: none;
+  background: none;
+  padding: 20px;
+  background: blue;
+  color: white;
+  font-family: sans-serif;
+  font-size: 14px; }
