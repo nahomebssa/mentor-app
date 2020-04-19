@@ -23,6 +23,8 @@ const ProfileAttribute = (props) => (
 class ProfileForm extends Component {
 	constructor(props) {
 		super(props)
+		const FNID = `[ProfileForm#constructor]`
+		DBG(FNID, `props.profile: `, props.profile)
 		this.state = {
 			name: props.profile.name || "",
 			bio: props.profile.bio || ""
@@ -31,11 +33,35 @@ class ProfileForm extends Component {
 	}
 
 	saveChanges() {
+		const FNID = `[ProfileForm#saveChanges]`
+		// ALERT(`${FNID} SUCCESS \n${result}`)
+		// DBG(FNID, result)
+
 		const { name, bio } = this.state;
-		alert(`saving changes...\nname: ${name}\nbio: ${bio}`)
+		ALERT(`saving changes...\nname: ${name}\nbio: ${bio}`)
+
+		const user = firebase.auth().currentUser;
+		user.updateProfile({
+			displayName: this.state.name,
+			// photoURL: "https://example.com/jane-q-user/profile.jpg"
+		}).then(function () {
+			// Update successful.
+			ALERT(`${FNID} updated profile`)
+		}).catch(function (error) {
+			// An error happened.
+			ALERT(`${FNID} failed to update profile`)
+			DBG(FNID, error)
+		});
+
+	}
+
+	preRender() {
 	}
 
 	render() {
+
+		this.preRender()
+
 		return (
 			<div className="profile-form">
 				<input
@@ -68,35 +94,171 @@ class ProfileView extends Component {
 
 	constructor(props)
 	{
-
-		const DEFAULT_PROFILE =
-		{
-			isDefaultProfile: true,
-			name: "",
-			bio: ""
-		}
-
 		super(props)
+		const FNID = `[ProfileView#constructor]`
+		DBG(FNID, `props.profile: `, this.props.profile)
+		const {
+			profile = {}
+		} = this.props
 		this.state = {
-			profile: props.profile || DEFAULT_PROFILE || { isEmptyProfile: true, }
+			// profile: props.profile || DEFAULT_PROFILE || { isEmptyProfile: true, }
+			profile: profile || { isEmptyProfile: true },
+
+			// ProfileForm
+			iName: profile.name || "",
+			iUsername: profile.username || "",
+			iBio: profile.bio || "",
+			iEmail: profile.email || "",
+		}
+		
+		// ProfileForm
+		this.saveChanges = this.saveChanges.bind(this)
+		
+		this.onProfileRefGet = this.onProfileRefGet.bind(this);
+		this.onProfileRefGetError = this.onProfileRefGetError.bind(this);
+		this.getProfile = this.loadProfile.bind(this);
+
+		this.loadProfile()
+		
+	}
+
+	onProfileUpdated() {
+		alert("Your changes have been saved.")
+	}
+
+	// ProfileForm
+	saveChanges() {
+		const FNID = `[ProfileForm#saveChanges]`
+		// ALERT(`${FNID} SUCCESS \n${result}`)
+		// DBG(FNID, result)
+
+		const { name, bio } = this.state;
+		ALERT(`saving changes...\nname: ${name}\nbio: ${bio}`)
+
+		const user = firebase.auth().currentUser;
+		const { displayName, email, photoURL, emailVerified, uid } = user;
+		user.updateProfile({
+			displayName: this.state.name,
+			// photoURL: "https://example.com/jane-q-user/profile.jpg"
+		}).then(function () {
+			// Update successful.
+			ALERT(`${FNID} updated profile`)
+		}).catch(function (error) {
+			// An error happened.
+			ALERT(`${FNID} failed to update profile`)
+			DBG(FNID, error)
+		});
+
+		const db = firebase.firestore()
+		const usersRef = db.collection("/users")
+		const profileRef = usersRef.doc(uid)
+		const newProfile = { 
+			// ...this.state.profile,
+			name: this.state.iName,
+			username: this.state.iUsername,
+			bio: this.state.iBio,
+			email: this.state.iEmail,
+		}
+		DBG(newProfile)
+		profileRef.set(newProfile)
+
+		this.onProfileUpdated()
+
+	}
+	// end ProfileForm
+
+	onProfileRefGet(doc) {
+		const thispv = this
+		const FNID = `[ProfileView#onProfileRefGet]`
+		if (doc.exists) {
+			const profile = doc.data()
+			thispv.setState({
+				// name: firebase.auth().currentUser.displayName,
+				profile,
+				iName: profile.name,
+				iUsername: profile.username,
+				iBio: profile.bio,
+				iEmail: profile.email,
+			})
+			this.forceUpdate()
+			DBG(`${FNID} this.state.profile`, this.state.profile)
+			// ALERT(`${FNID} doc exists`)
+		} else {
+			console.log("No such document 'doc.data()' defined!")
 		}
 	}
 
+	onProfileRefGetError(error) {
+		const FNID = `[ProfileView#onProfileRefGetError]`
+		console.log("Error getting document:", error);
+		ALERT(`${FNID} Error getting document: ${error}`)
+	}
+
+	loadProfile() {
+		const FNID = `[ProfileView#getProfile]`
+
+		const DEFAULT_PROFILE = { isDefaultProfile: true, name: "", bio: "" }
+		const user = firebase.auth().currentUser
+		const { displayName, email, photoURL, emailVerified, uid } = user;
+		
+		// const profileRef = firebase.firestore().collection("/users").doc(firebase.auth().currentUser)
+		const db = firebase.firestore()
+		const usersRef = db.collection("/users")
+		const profileRef = usersRef.doc(uid)
+		profileRef.get()
+			.then(this.onProfileRefGet)
+			.catch(this.onProfileRefGetError)
+
+		DBG(`${FNID} user: `, user)
+	}
+
+
 	render () {
+		// const FNID = `[ProfileView#render]`
+		// DBG(`${FNID} rendering...`, this.state.profile )
+
+		const { profile } = this.state
+
 		return (
 			<div className="ProfileView">
-				{/* <h1>Profile</h1> */}
-				{/* <div style={{ display: "flex", flexWrap: "wrap" }}> */}
 				<div>
-					
 					<PageTitle />
+					{/* <ProfileForm
+						profile={profile} /> */}
+						<div className="profile-form">
 
-					<ProfileForm
-						profile={{
-							name: "Nahom Ebssa",
-							bio: "I like to think, I think..."
-						}} />
-
+							<label>Name</label>
+							<input
+								type="text"
+								placeholder="Name"
+								value={this.state.iName}
+								onChange={(event) => this.setState({ iName: event.target.value })} />
+							
+							<label>Username</label>
+							<input
+								type="text"
+								placeholder="Username"
+								value={this.state.iUsername}
+								onChange={(event) => this.setState({ iUsername: event.target.value })} />
+							
+							<label>Bio</label>
+							<textarea
+								placeholder="Insert bio here..."
+								value={this.state.iBio}
+								onChange={(event) => this.setState({ iBio: event.target.value })} />
+							
+							<label>Email</label>
+							<input
+								type="email"
+								placeholder="Email address"
+								value={this.state.iEmail}
+								onChange={(event) => this.setState({ iEmail: event.target.value })} />
+						</div>
+						<button
+							className="btn" id="btn-update-profile"
+							onClick={(event) => { this.saveChanges() }}>
+							Save changes
+						</button>
 				</div>
 			</div>
 		)

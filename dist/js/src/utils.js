@@ -12,3 +12,19 @@ function assert(expression = true, failMsg = "") {
 }
 
 const ENUM = obj => Object.freeze(obj)
+
+
+const __DEBUG__ = false;
+let ALERT, DBG, ERR;
+if (__DEBUG__)
+{
+	ALERT = alert
+	DBG = console.log
+	ERR = console.error
+}
+else
+{
+	ALERT = () => {}
+	DBG = () => {}
+	ERR = () => {}
+}

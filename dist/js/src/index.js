@@ -7,8 +7,8 @@ const {
 	Route,
 	Link,
 	Redirect,
+	browserHistory,
 } = ReactRouterDOM
-
 
 const Icon = (props) => <i className="material-icons">{props.name}</i>
 
@@ -35,43 +35,87 @@ class SignInForm extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			email: "",
-			password: "",
+			email: "user1@gmail.com",
+			password: "user001",
+			errorMessage: "",
+			gotSignedIn: false,
 		}
+		this.onSignInFail = this.onSignInFail.bind(this)
+		this.onSignInSuccess = this.onSignInSuccess.bind(this)
+		this.handleSignIn = this.handleSignIn.bind(this)
+	}
+
+
+	onSignInSuccess(result) {
+		const FNID = `[SignInForm#onSignInSuccess]`
+		// ALERT(`${FNID} Sign in successful!\n"${result}"`)
+		ALERT(`${FNID} Sign in successful!`)
+		
+		const {
+			history,
+			successPath,
+		} = this.props
+
+		AuthenticationManager.setAuthState(AuthenticationManager.AuthState.SIGNEDIN)
+		
+		this.setState({ gotSignedIn: true })
+	}
+
+	onSignInFail(error) {
+		const FNID = `[SignInForm#onSignInFail]`
+		ALERT(`${FNID} Failed to sign in :( ...`)
+		ERR(FNID, error)
+
+		this.setState({ errorMessage: `${error}` })
 	}
 
 	handleSignIn() {
+		
 		const {
 			email,
 			password
 		} = this.state
-		alert(`Signing in...\nemail: ${email}\npassword: ${password}`)
-		const authRes = AuthenticationManager.signIn({ provider: AuthenticationManager.AuthProvider.EMAIL, email, password });
-		if (authRes.value !== null)
-		{
-			// user
-			console.log("[SignInForm#handleSignIn] We got the user from sign in operation")
-		}
-		else
-		{
-			console.error("[SignInForm#handleSignIn] Oops, didnt get the user")
-			switch (authRes.error) {
-				case '':
-					break;
-				case null:
-					alert("[SignInForm#handleSignIn] probably no provider")
-					console.error("[SignInForm#handleSignIn] probably no provider")
-					break;
-				default:
-					break;
-			}
-		}
+		
+		ALERT(`Signing in...\nemail: ${email}\npassword: ${password}`)
+
+		// this.onSignInSuccess({ toString() { return "pretend sign in" } })
+		
+		firebase.auth().signInWithEmailAndPassword(email, password)
+			.then(this.onSignInSuccess)
+			.catch(this.onSignInFail)
+		
+		// const fnSuccess = this.onSignInSuccess
+		// const fnFail = this.onSignInFail
+		// DBG(fnSuccess, fnFail)
+		// AuthenticationManager.signIn({
+		// 	provider: AuthenticationManager.AuthProvider.EMAIL,
+		// 	email,
+		// 	password,
+		// 	onSuccess: this.onSignInSuccess,
+		// 	onFail: this.onSignInFail,
+		// })
 
 	}	
 
 	render() {
+
+		const {
+			errorMessage,
+			gotSignedIn,
+		} = this.state
+
+		if (gotSignedIn === true)
+		{
+			return <Redirect to="/profile" />
+		}
+
+		const FNID = `[SignInForm#render]`
+		const hasError = (errorMessage !== "")
 		return (
 			<div className="auth-form --sign-in">
+				<div className={`msg-banner ${ hasError ? "--error" : "--hidden" }`}>
+					{errorMessage}
+				</div>
 				<form>
 					<input
 						type="email"
@@ -97,9 +141,55 @@ class SignUpForm extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			email: "",
-			password: "",
+			fullName: "User One",
+			email: "user1@gmail.com",
+			password: "user001",
+			errorMessage: "",
+			gotSignedUp: false,
 		}
+		this.onSignUpSuccess = this.onSignUpSuccess.bind(this)
+		this.onSignUpFail = this.onSignUpFail.bind(this)
+	}
+	
+	onSignUpSuccess(result) {
+		const FNID = `[SignUpForm#onSignUpSuccess]`
+		ALERT(`${FNID} SUCCESS \n${result}`)
+		DBG(FNID, result)
+		
+		DBG(FNID, firebase.auth().currentUser)
+
+		// set user's name and other details (firebase.updateProfile)
+		const user = firebase.auth().currentUser;
+		user.updateProfile({
+			displayName: this.state.fullName,
+			//photoURL: "https://example.com/jane-q-user/profile.jpg"
+		}).then(function () {
+			// Update successful.
+			ALERT(`${FNID} updated profile`)
+		}).catch(function (error) {
+			// An error happened.
+			ALERT(`${FNID} failed to update profile`)
+			DBG(FNID, error)
+		});
+
+		// add user to db
+		const db = firebase.firestore()
+		const usersRef = db.collection("users")
+		usersRef.doc(result.user.uid).set({
+			isSetup: "no?false:true",
+			name: "<no name>",
+			bio: "<no bio>",
+		});
+
+
+		// this needs to happen last, it will re-render, and redirect the page
+		this.setState({ gotSignedUp: true })
+	}
+	onSignUpFail(error) {  // {code, message} = error
+		const FNID = `[SignUpForm#onSignUpFail]`
+		ALERT(`${FNID} FAILED \n${error}`)
+		ERR(FNID, error)
+		this.setState({ errorMessage: `${error}` })
 	}
 
 	handleSignUp() {
@@ -107,14 +197,38 @@ class SignUpForm extends Component {
 			email,
 			password
 		} = this.state
-		alert(`Signing up...\nemail: ${email}\npassword: ${password}`)
+		ALERT(`Signing up...\nemail: ${email}\npassword: ${password}`)
+
+		firebase.auth().createUserWithEmailAndPassword(email, password)
+			.then(this.onSignUpSuccess)
+			.catch(this.onSignUpFail);
 
 	}	
 
 	render() {
+		const {
+			errorMessage,
+			gotSignedUp,
+		} = this.state
+
+		if (gotSignedUp === true)
+		{
+			return <Redirect to="/sign-in" />
+		}
+
+		const hasError = (errorMessage !== "")
+		const message = errorMessage
 		return (
 			<div className="auth-form --sign-up">
+				<div className={`msg-banner ${ hasError ? "--error" : "--hidden" }`}>
+					{message}
+				</div>
 				<div>
+					<input
+						type="text"
+						placeholder="Full Name"
+						value={this.state.fullName}
+						onChange={(event) => this.setState({ fullName: event.target.value })} />
 					<input
 						type="email"
 						placeholder="Email address"
@@ -150,7 +264,10 @@ class AuthenticationView extends Component {
 		let authForm = null;
 		switch (this.props.authMode) {
 			case "AuthMode.SIGNIN":
-				authForm = <SignInForm />
+				authForm = (
+					<SignInForm
+						history={this.props.history} />
+				)
 				break;
 			case "AuthMode.SIGNUP":
 				authForm = <SignUpForm />
@@ -176,13 +293,14 @@ class App extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			isSignedOut: true
 		}
 	}
 
 	render() {
 		let basename;
-		basename = ""
-		basename = "/mentor-app/app.html"
+		// basename = ""
+		// basename = "/mentor-app/app.html"
 		basename = "/dist/app.html"
 
 		/* 
@@ -198,12 +316,16 @@ class App extends Component {
 					break;
 			}
 		*/
+		// const {
+		// 	isSignedOut
+		// } = this.state
 		const isSignedOut = (AuthenticationManager._authState == AuthenticationManager.AuthState.SIGNEDOUT)
-		return (
+		ALERT(AuthenticationManager._authState)
+		this.router = (
 			<BrowserRouter basename={basename}>
 				<div className="App">
 					<header>
-						{/* <h1>Mentor Finder</h1> */}
+						<h1>Mentor Finder</h1>
 					</header>
 					<main>
 						<Switch>
@@ -217,17 +339,21 @@ class App extends Component {
 								<ProfileView />
 							</Route>
 							<Route path="/sign-in">
-								<AuthenticationView authMode="AuthMode.SIGNIN"  />
+								<AuthenticationView
+									authMode="AuthMode.SIGNIN"
+									successPath={"/profile"} />
 							</Route>
 							<Route path="/sign-up">
-								<AuthenticationView authMode="AuthMode.SIGNUP"  />
+								<AuthenticationView
+									authMode="AuthMode.SIGNUP" />
 							</Route>
 							<Route path="/sign-out">
-								<AuthenticationView authMode="AuthMode.SIGNOUT"  />
+								<AuthenticationView
+									authMode="AuthMode.SIGNOUT" />
 							</Route>
 							<Route path="/">
-								{/* <HomeView /> */}
-								{isSignedOut ? <Redirect to="/sign-in" /> : <HomeView />}
+								<HomeView />
+								{/* {isSignedOut ? <Redirect to="/sign-in" /> : <HomeView />} */}
 							</Route>
 						</Switch>
 					</main>
@@ -235,6 +361,7 @@ class App extends Component {
 				</div>
 			</BrowserRouter>
 		)
+		return this.router
 	}
 }
 

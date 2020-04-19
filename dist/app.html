@@ -31,6 +31,7 @@
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 	<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
 	<script>
 		// Your web app's Firebase configuration
 		var firebaseConfig = {
@@ -81,7 +82,7 @@
 				window.addEventListener("keydown", function(event) {
 					event.preventDefault();
 					if (event.which == 116) { // F5
-						// alert("going home...")
+						// ALERT("going home...")
 						window.location.href = ("http://localhost:5501/dist/app.html")
 					}
 				})
