@@ -74,58 +74,21 @@ class AuthenticationManager {
 		return authRes;
 	}
 }
-
+AuthenticationManager.AuthState = {
+	SIGNEDIN: "AuthState.SIGNEDIN",
+	SIGNEDOUT: "AuthState.SIGNEDOUT",
+	GUESTMODE: "AuthState.GUESTMODE",
+}
+AuthenticationManager.AuthProvider = {
+	EMAIL: "AuthProvider.EMAIL",
+	GOOGLE: "AuthProvider.GOOGLE",
+}
+AuthenticationManager.AuthResult = class {
+	// constructor({ status, message }) {
+	constructor({ result, error }) {
+		this.result = result;
+		this.error = error;
+	}
+}
+AuthenticationManager._authState = AuthenticationManager.AuthState.SIGNEDOUT;
 AuthenticationManager._initialize();
-
-// class AuthenticationManager {
-
-// 	/**
-// 	 * Assumes existence of:
-// 	 * 	- User class
-// 	 */
-
-// 	_init()
-// 	{
-// 		AuthenticationManager.AuthProvider = ENUM({
-// 			EMAIL: `AuthProvider.EMAIL`,
-// 			GOOGLE: `AuthProvider.GOOGLE`,
-// 			LINKEDIN: `AuthProvider.LINKEDIN`,
-// 		})
-// 		AuthenticationManager.AuthResult = class {
-// 			constructor({ status, message }) {
-
-// 			}
-// 		}
-// 		AuthenticationManager.AuthError = class extends Error {
-// 			constructor({ message }) {}
-// 		}
-// 	}
-
-// 	/**
-// 	 * Class Variables
-// 	 * currentUser: null
-// 	 */
-// 	constructor({ /* ... */ }) {}
-
-// 	createAccount() {}
-	
-// 	signIn({
-// 		provider = AuthenticationManager.AuthProvider.GOOGLE,
-// 		username = "",
-// 		password = ""
-// 	}) {
-// 		// const { EMAIL, GOOGLE } = AuthenticationManager.AuthProvider
-// 		// switch (provider) {
-// 		// 	case EMAIL:
-
-// 		// 		break;
-// 		// 	case GOOGLE:
-// 		// 		break;
-// 		// 	default:
-// 		// 		break;
-// 		// }
-// 		return new AuthenticationManager.AuthResult({ status: OK })
-// 	}
-// 	signOut() {}
-// 	signOut() {}
-// }

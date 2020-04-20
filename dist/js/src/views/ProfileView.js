@@ -1,6 +1,6 @@
 const { Component } = React
 
-const PageTitle = (props) => (<h2>Edit Profile</h2>)
+const PageTitle = (props) => (<h2 className="title">Edit Profile</h2>)
 
 const ProfilePicture = (props) => (<img src="#" alt="Profile picture" style={{ flex: "1" }} />)
 
@@ -20,7 +20,7 @@ const ProfileAttribute = (props) => (
 	</div>
 ) */
 
-class ProfileForm extends Component {
+class ProfileForm1 extends Component {
 	constructor(props) {
 		super(props)
 		const FNID = `[ProfileForm#constructor]`
@@ -55,12 +55,7 @@ class ProfileForm extends Component {
 
 	}
 
-	preRender() {
-	}
-
 	render() {
-
-		this.preRender()
 
 		return (
 			<div className="profile-form">
@@ -73,15 +68,36 @@ class ProfileForm extends Component {
 					placeholder="Insert bio here..."
 					value={this.state.bio}
 					onChange={(event) => this.setState({ bio: event.target.value })} />
-				<button
+				<input
+					type="button"
 					className="btn"
-					onClick={(event) => { this.saveChanges() }}>
-					Save changes
-				</button>
+					onClick={(event) => { this.saveChanges() }}
+					value="Save changes" />
 			</div>
 		)
 	}
 
+}
+
+class ProfileForm extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			iName: profile.name || "",
+			iUsername: profile.username || "",
+			iBio: profile.bio || "",
+			iEmail: profile.email || "",
+		}
+		this.saveChanges = this.saveChanges.bind(this)
+	}
+	render()
+	{
+		return (
+			<div className="ProfileForm">
+				
+			</div>
+		)
+	}
 }
 
 /**
@@ -97,10 +113,15 @@ class ProfileView extends Component {
 		super(props)
 		const FNID = `[ProfileView#constructor]`
 		DBG(FNID, `props.profile: `, this.props.profile)
+		
+		// props passed in as attributes
 		const {
 			profile = {}
 		} = this.props
+		
+		// maintain the state of the profile view
 		this.state = {
+		
 			// profile: props.profile || DEFAULT_PROFILE || { isEmptyProfile: true, }
 			profile: profile || { isEmptyProfile: true },
 
@@ -118,6 +139,7 @@ class ProfileView extends Component {
 		this.onProfileRefGetError = this.onProfileRefGetError.bind(this);
 		this.getProfile = this.loadProfile.bind(this);
 
+		// get profile from firebase
 		this.loadProfile()
 		
 	}
@@ -226,39 +248,49 @@ class ProfileView extends Component {
 					{/* <ProfileForm
 						profile={profile} /> */}
 						<div className="profile-form">
-
-							<label>Name</label>
-							<input
-								type="text"
-								placeholder="Name"
-								value={this.state.iName}
-								onChange={(event) => this.setState({ iName: event.target.value })} />
 							
-							<label>Username</label>
-							<input
-								type="text"
-								placeholder="Username"
-								value={this.state.iUsername}
-								onChange={(event) => this.setState({ iUsername: event.target.value })} />
+							<label>
+								<span>Name</span>
+								<input
+									type="text"
+									placeholder="Name"
+									value={this.state.iName}
+									onChange={(event) => this.setState({ iName: event.target.value })} />
+							</label>
 							
-							<label>Bio</label>
-							<textarea
-								placeholder="Insert bio here..."
-								value={this.state.iBio}
-								onChange={(event) => this.setState({ iBio: event.target.value })} />
+						
+							<label>
+								<span>Username</span>
+								<input
+									type="text"
+									placeholder="Username"
+									value={this.state.iUsername}
+									onChange={(event) => this.setState({ iUsername: event.target.value })} />
+							</label>
 							
-							<label>Email</label>
-							<input
-								type="email"
-								placeholder="Email address"
-								value={this.state.iEmail}
-								onChange={(event) => this.setState({ iEmail: event.target.value })} />
+							<label>
+								<span>Bio</span>
+								<textarea
+									placeholder="Insert bio here..."
+									value={this.state.iBio}
+									onChange={(event) => this.setState({ iBio: event.target.value })} />
+							</label>
+							
+							{/* <label>
+								<span>Email</span>
+								<input
+									type="email"
+									placeholder="Email address"
+									value={this.state.iEmail}
+									onChange={(event) => this.setState({ iEmail: event.target.value })} />
+							</label> */}
+							<div id="btns">
+								<input className="btn btn-primary" id="btn-update-profile"
+									type="button"
+									onClick={(event) => { this.saveChanges() }}
+									value="Save changes" />
+							</div>
 						</div>
-						<button
-							className="btn" id="btn-update-profile"
-							onClick={(event) => { this.saveChanges() }}>
-							Save changes
-						</button>
 				</div>
 			</div>
 		)

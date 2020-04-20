@@ -1,12 +1,10 @@
 /* For mobile devices */
 @media only screen and (max-width: 600px) {
-  .App main {
-    background: #000; }
   input[type="text"],
   input[type="email"],
   input[type="password"],
   .input-mobile {
-    padding: 10px; } }
+    opacity: 1; } }
 
 input[type="text"],
 input[type="email"],

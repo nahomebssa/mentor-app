@@ -28,62 +28,126 @@ body {
   display: flex;
   flex-direction: column; }
   .App > header {
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #eee;
-    padding: 20px; }
+    height: 10vh;
+    background-color: rgba(245, 245, 245, 0.75);
+    border-bottom: 1px solid rgba(238, 238, 238, 0.75);
+    backdrop-filter: blur(5px);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
     .App > header h1 {
       font-size: 18px;
       font-weight: 300;
-      text-align: center; }
+      text-align: center;
+      flex: 1; }
   .App > main {
     flex: 1;
     height: 100%;
     background-color: #fafafa;
-    overflow-y: scroll; }
-  .App nav.App-Tabs {
-    opacity: 1;
-    background-color: #f5f5f5;
-    border-top: 1px solid #eee; }
-    .App nav.App-Tabs ul {
+    overflow-y: scroll;
+    padding-top: 20vh;
+    margin-top: -20vh; }
+  .App nav.AppTabs {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(245, 245, 245, 0.75);
+    border-top: 1px solid rgba(238, 238, 238, 0.75);
+    backdrop-filter: blur(10px); }
+    .App nav.AppTabs ul {
       list-style: none;
       display: flex; }
-      .App nav.App-Tabs ul li {
+      .App nav.AppTabs ul li {
         flex: 1;
         display: flex;
         align-items: center;
-        justify-content: center;
-        /* border: 3px solid #333; */
-        /* border-left: none; */ }
-        .App nav.App-Tabs ul li a {
+        justify-content: center; }
+        .App nav.AppTabs ul li a {
           width: 100%;
           text-decoration: none;
           padding: 2vh 20px;
           text-align: center; }
 
+.App main [class$="View"] .title {
+  margin: 20px; }
+
 /**
-* ProfileView
-*/
+ * ExploreView
+ */
+.ExploreView {
+  display: flex;
+  flex-direction: column; }
+  .ExploreView .SearchBox {
+    display: flex;
+    flex-wrap: wrap; }
+    .ExploreView .SearchBox input[type="textbox"] {
+      margin: 10px;
+      flex: 1; }
+  .ExploreView .SearchResults {
+    display: flex;
+    flex-direction: column; }
+    .ExploreView .SearchResults > * {
+      margin: 5vh 10vw; }
+  .ExploreView .UserCard {
+    display: flex;
+    flex-direction: column;
+    border-top: 5 solid purple;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5); }
+    .ExploreView .UserCard .img {
+      flex: 3;
+      min-height: 30vh;
+      background-color: slategrey; }
+    .ExploreView .UserCard .details {
+      flex: 8;
+      padding: 5vw; }
+      .ExploreView .UserCard .details .badge {
+        margin: 2px;
+        padding: 5px; }
+      .ExploreView .UserCard .details .Rating {
+        display: flex; }
+        .ExploreView .UserCard .details .Rating .material-icons.--empty {
+          color: lightgrey; }
+        .ExploreView .UserCard .details .Rating .material-icons.--filled {
+          color: yellow; }
+
+/**
+ * ProfileView
+ */
 .ProfileView > div {
   display: flex;
   flex-direction: column; }
   .ProfileView > div .profile-form {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    padding-top: 20px; }
+    display: flex;
+    flex-wrap: wrap; }
     .ProfileView > div .profile-form > * {
       margin: 10px 20px; }
+    .ProfileView > div .profile-form > *:nth-child(even) {
+      flex: 70%; }
+    .ProfileView > div .profile-form > *:nth-child(odd) {
+      flex: 30%; }
+    .ProfileView > div .profile-form > *:last-child {
+      flex: 100%; }
     .ProfileView > div .profile-form textarea {
       min-height: 30vh;
       padding: 10px; }
-  .ProfileView > div #btn-update-profile {
-    align-self: center;
-    justify-self: center;
-    padding: 10px 20px;
-    margin: 20px; }
+    .ProfileView > div .profile-form label {
+      display: flex;
+      align-items: flex-start; }
+      .ProfileView > div .profile-form label span {
+        width: 30%; }
+      .ProfileView > div .profile-form label input,
+      .ProfileView > div .profile-form label textarea {
+        width: 70%; }
+    .ProfileView > div .profile-form #btns {
+      display: flex; }
+      .ProfileView > div .profile-form #btns:first-child {
+        flex: 1; }
 
 /**
-* AuthenticationView
-*/
+ * AuthenticationView
+ */
 .AuthenticationView {
   position: absolute;
   top: 0;
@@ -91,11 +155,11 @@ body {
   bottom: 0;
   right: 0;
   background: #271b57;
-  padding: 0 25vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  z-index: 100; }
   .AuthenticationView .title {
     text-align: center;
     font-size: 36px;
@@ -103,42 +167,50 @@ body {
     letter-spacing: -1.5px;
     line-height: 36px;
     color: white; }
-  .AuthenticationView .auth-form {
+  .AuthenticationView .auth-form .msg-banner {
+    margin: 2vh 5vw;
+    padding: 2vh 4vw;
+    font-size: 14px; }
+    .AuthenticationView .auth-form .msg-banner.--error {
+      border: 1px solid #A00;
+      background: rgba(230, 90, 90, 0.5);
+      color: #800; }
+    .AuthenticationView .auth-form .msg-banner.--success {
+      border: 1px solid #00aa4d;
+      background: rgba(106, 230, 90, 0.5);
+      color: #008807; }
+    .AuthenticationView .auth-form .msg-banner.--hidden {
+      opacity: 0;
+      display: none; }
+  .AuthenticationView .auth-form > div,
+  .AuthenticationView .auth-form form {
     display: flex;
     flex-direction: column; }
-    .AuthenticationView .auth-form .msg-banner {
-      margin: 2vh 5vw;
-      padding: 2vh 4vw;
-      font-size: 14px; }
-      .AuthenticationView .auth-form .msg-banner.--error {
-        border: 1px solid #A00;
-        background: rgba(230, 90, 90, 0.5);
-        color: #800; }
-      .AuthenticationView .auth-form .msg-banner.--success {
-        border: 1px solid #00aa4d;
-        background: rgba(106, 230, 90, 0.5);
-        color: #008807; }
-      .AuthenticationView .auth-form .msg-banner.--hidden {
-        opacity: 0;
-        display: none; }
-    .AuthenticationView .auth-form div, .AuthenticationView .auth-form form {
-      display: flex;
-      flex-direction: column; }
-      .AuthenticationView .auth-form div input, .AuthenticationView .auth-form form input {
-        margin: 10px 20px; }
-      .AuthenticationView .auth-form div input[type="submit"],
-      .AuthenticationView .auth-form div input[type="button"], .AuthenticationView .auth-form form input[type="submit"],
-      .AuthenticationView .auth-form form input[type="button"] {
-        padding: 10px;
-        min-width: 30vw;
-        align-self: center; }
-    .AuthenticationView .auth-form.--sign-in a[href$="sign-up"] {
-      align-self: center;
-      text-decoration: none; }
+    .AuthenticationView .auth-form > div input[type="submit"],
+    .AuthenticationView .auth-form > div input[type="button"],
+    .AuthenticationView .auth-form form input[type="submit"],
+    .AuthenticationView .auth-form form input[type="button"] {
+      align-self: center; }
+  .AuthenticationView .auth-form #btns {
+    display: flex;
+    align-self: flex-end;
+    padding: 10px; }
 
 /**
-* Misc.
-*/
+ * InboxView
+ */
+.InboxView {
+  display: flex;
+  height: 100%; }
+  .InboxView .coming-soon {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+
+/**
+ * Misc.
+ */
 body #btn-refresh {
   position: absolute;
   top: 20px;
@@ -160,11 +232,5 @@ body #btn-refresh {
     opacity: 1;
     z-index: 1000; }
 
-body .btn {
-  border: none;
-  background: none;
-  padding: 20px;
-  background: blue;
-  color: white;
-  font-family: sans-serif;
-  font-size: 14px; }
+body .test-output {
+  font-family: monospace; }

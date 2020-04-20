@@ -6,6 +6,7 @@
 	padding: 0;
 	font-family: "Manrope", sans-serif;
 	user-select: none;
+	// overflow: hidden;
 }
 html, body { height: 100%; }
 // mobile look
@@ -36,15 +37,23 @@ body { display: flex; }
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-
+	$opacity: 0.75;
+	$header-height: 10vh;
 	& > header {
-		background-color: #f5f5f5;
-		border-bottom: 1px solid #eee;
-		padding: 20px;
+		height: $header-height;
+		// margin-bottom: -$header-height;
+		background-color: rgba(245, 245, 245, $opacity);
+		border-bottom: 1px solid rgba(238, 238, 238, $opacity);
+		backdrop-filter: blur(5px);
+		z-index: 50;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		h1 {
 			font-size: 18px;
 			font-weight: 300;
 			text-align: center;
+			flex: 1;
 		}
 	}
 
@@ -53,11 +62,17 @@ body { display: flex; }
 		height: 100%;
 		background-color: #fafafa;
 		overflow-y: scroll;
+		padding-top: 20vh;
+		margin-top: -20vh;
 	}
-	nav.App-Tabs {
-		opacity: 1;
-		background-color: #f5f5f5;
-		border-top: 1px solid #eee;
+	nav.AppTabs {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-color: rgba(245, 245, 245, $opacity);
+		border-top: 1px solid rgba(238, 238, 238, $opacity);
+		backdrop-filter: blur(10px);
 		ul {
 			list-style: none;
 			display: flex;
@@ -66,8 +81,8 @@ body { display: flex; }
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				/* border: 3px solid #333; */
-				/* border-left: none; */
+				// border: 3px solid #333;
+				// border-left: none;
 				a {
 					width: 100%;
 					text-decoration: none;
@@ -79,39 +94,129 @@ body { display: flex; }
 	}
 }
 
+.App main [class$="View"] {
+	.title {
+		margin: 20px;
+	}
+}
+
 /**
-* ProfileView
-*/
-.ProfileView {
-	& > div {
+ * ExploreView
+ */
+.ExploreView {
+	display: flex;
+	flex-direction: column;
+	.SearchBox {
+		display: flex;
+		flex-wrap: wrap;
+		input[type="textbox"] {
+			margin: 10px;
+			flex: 1;
+		}
+	}
+	.SearchResults {
 		display: flex;
 		flex-direction: column;
-		.profile-form {
-			// display: flex;
-			// flex-direction: column;
-			display: grid;
-			grid-template-columns: 1fr 4fr;
-			padding-top: 20px;
-			& > * {
-				margin: 10px 20px;
-			}
-			textarea {
-				min-height: 30vh;
-				padding: 10px;
-			}
+		& > * {
+			margin: 5vh 10vw;
 		}
-		#btn-update-profile {
-			align-self: center;
-			justify-self: center;
-			padding: 10px 20px;
-			margin: 20px;
+	}
+	.UserCard {
+		display: flex;
+		flex-direction: column;
+		border-top: 5 solid purple;
+		box-shadow: 0 2px 10px 0 rgba(0,0,0,0.5);
+		.img {
+			flex: 3;
+			min-height: 30vh;
+			background-color: slategrey;
+		}
+		.details {
+			flex: 8;
+			padding: 5vw;
+			.badge {
+				margin: 2px;
+				padding: 5px;
+			}
+			.Rating {
+				display: flex;
+				.material-icons {
+					&.--empty {
+						color: lightgrey;
+					}
+					&.--filled {
+						color: yellow;
+					}
+				}
+			}
 		}
 	}
 }
 
 /**
-* AuthenticationView
-*/
+ * ProfileView
+ */
+.ProfileView {
+	& > div {
+		display: flex;
+		flex-direction: column;
+		.profile-form {
+			display: flex;
+			flex-wrap: wrap;
+			// display: grid;
+			// grid-template-columns: 2fr 5fr;
+			// padding-top: 20px;
+			& > * {  // inputs, textarea, button
+				margin: 10px 20px;
+			}
+			& > *:nth-child(even)  // labels
+			{
+				flex: 70%;
+				// color: red;
+			}
+			& > *:nth-child(odd)  // inputs
+			{
+				flex: 30%;
+			}
+			& > *:last-child  // submit btn
+			{
+				flex: 100%;
+			}
+			textarea {
+				min-height: 30vh;
+				padding: 10px;
+			}
+			label {
+				display: flex;
+				align-items: flex-start;
+				span {
+					width: 30%;
+				}
+				input,
+				textarea {
+					width: 70%;
+				}
+			}
+			#btns {
+				display: flex;
+				// justify-content: end;
+				&:first-child {
+					flex: 1;
+				}
+			}
+		}
+		// .btn {
+		// 	align-self: center;
+		// 	justify-self: center;
+		// 	// padding: 10px 20px;	
+		// 	// margin: 20px;
+		// }
+	}
+}
+
+/**
+ * AuthenticationView
+ */
 .AuthenticationView {
 	position: absolute;
 	top: 0;
@@ -120,11 +225,12 @@ body { display: flex; }
 	right: 0;
 	// background: rgb(219, 187, 43);
 	background: #271b57;
-	padding: 0 25vw;
+	// padding: 0 25vw;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	z-index: 100;
 	.title {
 		$fontsize: 36px;
 		text-align: center;
@@ -135,8 +241,8 @@ body { display: flex; }
 		color: white;
 	}
 	.auth-form {
-		display: flex;
-		flex-direction: column;
+		// display: flex;
+		// flex-direction: column;
 		.msg-banner {
 			margin: 2vh 5vw;
 			padding: 2vh 4vw;
@@ -157,29 +263,48 @@ body { display: flex; }
 			}
 		}
 
-		div, form {
+		& > div,
+		form {
 			display: flex;
 			flex-direction: column;
-			input { margin: 10px 20px; }
+			// input { margin: 10px 20px; }
 			input[type="submit"],
 			input[type="button"]
 			{
-				padding: 10px;
-				min-width: 30vw;
+				// padding: 10px;
+				// min-width: 30vw;
 				align-self: center;
 			}
 		}
-		&.--sign-in a[href$="sign-up"] {
-			align-self: center;
-			text-decoration: none;
+		#btns {
+			display: flex;
+			align-self: flex-end;
+			padding: 10px;
 		}
+		// &.--sign-in a[href$="sign-up"] {
+		// 	align-self: center;
+		// 	text-decoration: none;
+		// }
 	}
 }
 
+/**
+ * InboxView
+ */
+.InboxView {
+	display: flex;
+	height: 100%;
+	.coming-soon {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
 
 /**
-* Misc.
-*/
+ * Misc.
+ */
 body {
 	#btn-refresh {
 		position: absolute;
@@ -204,13 +329,17 @@ body {
 			z-index: 1000;
 		}
 	}
-	.btn {
-		border: none;
-		background: none;
-		padding: 20px;
-		background: blue;
-		color: white;
-		font-family: sans-serif;
-		font-size: 14px;
+	// .btn {
+	// 	&a {
+	// 		font-size: 14px;
+	// 	}
+	// 	padding: 10px 20px;
+	// 	border: none;
+	// 	background: none;
+	// 	background: blue;
+	// 	color: white;	
+	// }
+	.test-output {
+		font-family: monospace;
 	}
 }
