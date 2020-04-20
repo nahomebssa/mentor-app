@@ -168,6 +168,7 @@ class ExploreView extends React.Component {
 			searchText: "",
 			searchResults: _users || [],
 		}
+		
 	}
 
 	render () {
@@ -176,9 +177,12 @@ class ExploreView extends React.Component {
 				{/* <h1 className="title">Explore</h1> */}
 				<SearchBox
 					onTextChange={(text) => this.setState({ searchText: text })} />
+				<button onClick={() => { SearchManager.userExist({ name: this.state.searchText }); }}>
+					send data
+				</button>
 				<SearchResults
 					results={this.state.searchResults} />
-
+				
 			</div>
 		)
 	}
