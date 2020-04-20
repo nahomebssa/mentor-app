@@ -1,0 +1,10 @@
+class ProfileManager {
+	
+	/**
+	 * 
+	 */
+	constructor({ /* ... */ }) {}
+
+	editProfile() {}
+
+}

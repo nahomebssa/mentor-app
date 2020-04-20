@@ -4,7 +4,9 @@ class InboxView extends Component {
 	render () {
 		return (
 			<div className="InboxView">
-				<h1>Inbox View</h1>
+				<div className="coming-soon">
+					<p>Coming soon...</p>
+				</div>
 			</div>
 		)
 	}

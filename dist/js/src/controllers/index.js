@@ -9,7 +9,7 @@ class IAppController {
 	 * 
 	 * @param {AuthProvider} provider 
 	 */
-	createAccount({ provider })
+	createAccount({ provider }) {}
 	
 	/**
 	 * 
@@ -37,11 +37,18 @@ class IAppController {
 	 * @param {*} category
 	 * @param {*} rating
 	 */
-	searchFor({ type, category, rating  })
+	searchFor({ type, category, rating  }) {}
 
 
 }
 
 class AppController {
-	constructor() { /*  */ }
+	constructor() {
+		// this._searchManager
+		this._authManager
+	}
+
+	AuthManager() {
+		return this._authManager
+	}
 }
