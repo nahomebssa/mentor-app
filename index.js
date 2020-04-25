@@ -24,7 +24,7 @@ exports.addUser = functions.https.onRequest((request ,response) => {
 		name: 'Mr. Mentor',
 		mentee: false,
 		mentor: true,
-		fields: ['CS'],
+		fields: 'CS',
 		pword: '1234',
 		uname: 'mentor',
 		bio: 'Hello, I\'m Mister Mentor',
