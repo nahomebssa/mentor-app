@@ -8,25 +8,18 @@ var count = 0;
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
-exports.helloWorld = functions.https.onRequest((request, response) => {
+/*exports.helloWorld = functions.https.onRequest((request, response) => {
  	var send = count.toString(10);
  	response.send(send);
  	count++;
  	response.send(request.baseURL);
-});
+});*/
 
+
+//Edit function to accept parameters of users information and replace sample user data with variables
 exports.addUser = functions.https.onRequest((request ,response) => {
 	var db = admin.firestore();
-	let data = /*{
-  		name: 'Dunton James',
-  		mentee: true,
-  		mentor: false,
-  		fields: ['CS'],
-  		pword: 'password',
-  		uname: 'djames21',
-  		bio: 'I am a CS student',
-  		experience: 0
-	};*/
+	let data =
 	{
 		name: 'Mr. Mentor',
 		mentee: false,
@@ -58,12 +51,13 @@ exports.addUser = functions.https.onRequest((request ,response) => {
     console.log('Error getting document', err);
   });
 })*/
-
+/*
 exports.delUser = functions.https.onRequest((request, response) => {
 	var db = admin.firestore();
 	let delDoc = db.collection('users').doc('Test').delete();
-})
+})*/
 
+//Edit parameters to accept a username variable and replace 'mentor' with the username variable
 exports.userExist = functions.https.onRequest((request, response) => {
 	var db = admin.firestore();
 	var user = 'mentor'
@@ -83,6 +77,7 @@ exports.userExist = functions.https.onRequest((request, response) => {
   });
 })
 
+//Edit to accept a username to change the status of and replace 'Dunton James' with the variable
 exports.changeMentor = functions.https.onRequest((request, response) => {
 	var db = admin.firestore();
 	let update = db.collection('users').doc('Dunton James').get()
@@ -103,6 +98,7 @@ exports.changeMentor = functions.https.onRequest((request, response) => {
   });
 })
 
+//Edit to accept a username to change the status of and replace 'Dunton James' with the variable
 exports.changeMentee = functions.https.onRequest((request, response) => {
 	var db = admin.firestore();
 	let update = db.collection('users').doc('Dunton James').get()
@@ -123,15 +119,14 @@ exports.changeMentee = functions.https.onRequest((request, response) => {
   });
 })
 
+//Edit to accept parameter of field to search for and replace 'CS' with the variable
 exports.findMentor = functions.https.onRequest((request, response) => {
 	var db = admin.firestore();
 	var mentors = [];
 	var send = '';
-	//let users = db.collection('users').doc().get();
-	//response.send(users);
 
 	let users = db.collection('users');
-	let query = users.where('mentor', '==', true).where('mentee', '==', false).get()
+	let query = users.where('mentor', '==', true).where('field','==','CS')get()
   	.then(snapshot => {
     if (snapshot.empty) {
       console.log('No matching documents.');
