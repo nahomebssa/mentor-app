@@ -17,17 +17,47 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 
 exports.addUser = functions.https.onRequest((request ,response) => {
 	var db = admin.firestore();
-	let data = {
+	let data = /*{
   		name: 'Dunton James',
   		mentee: true,
   		mentor: false,
   		fields: ['CS'],
   		pword: 'password',
-  		uname: 'djames21'
-	};
-	let setDoc = db.collection('users').doc(data.name).set(data);
+  		uname: 'djames21',
+  		bio: 'I am a CS student',
+  		experience: 0
+	};*/
+	{
+		name: 'Mr. Mentor',
+		mentee: false,
+		mentor: true,
+		fields: ['CS'],
+		pword: '1234',
+		uname: 'mentor',
+		bio: 'Hello, I\'m Mister Mentor',
+		experience: 2
+	}
+	let setDoc = db.collection('users').doc(data.uname).set(data);
 	let end = response.send(data);
 });
+
+/*exports.login = functions.https.onRequest((request, response) => {
+	var db = admin.firestore();
+	let update = db.collection('users').doc('Dunton James').get()
+  	.then(doc => {
+    if (!doc.exists) {
+      console.log('No such document!');
+      response.send('No such document!');
+    } else {
+      console.log('Document data:', doc.data());
+      response.send(doc.data());
+    }
+    return;
+  })
+  .catch(err => {
+    console.log('Error getting document', err);
+  });
+})*/
 
 exports.delUser = functions.https.onRequest((request, response) => {
 	var db = admin.firestore();
@@ -36,7 +66,8 @@ exports.delUser = functions.https.onRequest((request, response) => {
 
 exports.userExist = functions.https.onRequest((request, response) => {
 	var db = admin.firestore();
-	let update = db.collection('users').doc('Dunton James').get()
+	var user = 'mentor'
+	let update = db.collection('users').doc(user).get()
   	.then(doc => {
     if (!doc.exists) {
       console.log('No such document!');
@@ -89,6 +120,34 @@ exports.changeMentee = functions.https.onRequest((request, response) => {
   })
   .catch(err => {
     console.log('Error getting document', err);
+  });
+})
+
+exports.findMentor = functions.https.onRequest((request, response) => {
+	var db = admin.firestore();
+	var mentors = [];
+	var send = '';
+	//let users = db.collection('users').doc().get();
+	//response.send(users);
+
+	let users = db.collection('users');
+	let query = users.where('mentor', '==', true).where('mentee', '==', false).get()
+  	.then(snapshot => {
+    if (snapshot.empty) {
+      console.log('No matching documents.');
+      return;
+    }  
+
+    snapshot.forEach(doc => {
+      console.log(doc.id, '=>', doc.data());
+      mentors.push(doc.data())
+      send += doc.data().name + '\n';
+    });
+    response.send(mentors);
+    return;
+  })
+  .catch(err => {
+    console.log('Error getting documents', err);
   });
 })
 
