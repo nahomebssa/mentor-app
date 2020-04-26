@@ -8,12 +8,12 @@ var count = 0;
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
-/*exports.helloWorld = functions.https.onRequest((request, response) => {
+exports.helloWorld = functions.https.onRequest((request, response) => {
  	var send = count.toString(10);
  	response.send(send);
  	count++;
  	response.send(request.baseURL);
-});*/
+});
 
 
 //Edit function to accept parameters of users information and replace sample user data with variables
@@ -24,7 +24,7 @@ exports.addUser = functions.https.onRequest((request ,response) => {
 		name: 'Mr. Mentor',
 		mentee: false,
 		mentor: true,
-		fields: 'CS',
+		fields_CS: true,
 		pword: '1234',
 		uname: 'mentor',
 		bio: 'Hello, I\'m Mister Mentor',
@@ -33,6 +33,14 @@ exports.addUser = functions.https.onRequest((request ,response) => {
 	let setDoc = db.collection('users').doc(data.uname).set(data);
 	let end = response.send(data);
 });
+//Edit function to accept parameter of new field and replace field with variable value
+exports.addField = functions.https.onRequest((request, response) => {
+	var db = admin.firestore();
+	var field = 'field_MATH';
+	var user = 'mentor';
+	let addF = db.collection('users').doc(user).update({field:true});
+	let end = response.send(true);
+})
 
 /*exports.login = functions.https.onRequest((request, response) => {
 	var db = admin.firestore();
@@ -51,11 +59,11 @@ exports.addUser = functions.https.onRequest((request ,response) => {
     console.log('Error getting document', err);
   });
 })*/
-/*
+
 exports.delUser = functions.https.onRequest((request, response) => {
 	var db = admin.firestore();
 	let delDoc = db.collection('users').doc('Test').delete();
-})*/
+})
 
 //Edit parameters to accept a username variable and replace 'mentor' with the username variable
 exports.userExist = functions.https.onRequest((request, response) => {
@@ -119,14 +127,14 @@ exports.changeMentee = functions.https.onRequest((request, response) => {
   });
 })
 
-//Edit to accept parameter of field to search for and replace 'CS' with the variable
+//Edit to accept parameter of field to search for and replace 'field_CS' with the variable
 exports.findMentor = functions.https.onRequest((request, response) => {
 	var db = admin.firestore();
 	var mentors = [];
 	var send = '';
-
+	var field = 'field_CS'
 	let users = db.collection('users');
-	let query = users.where('mentor', '==', true).where('field','==','CS')get()
+	let query = users.where('mentor', '==', true).where(field, '==', true).get()
   	.then(snapshot => {
     if (snapshot.empty) {
       console.log('No matching documents.');
