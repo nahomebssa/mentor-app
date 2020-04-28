@@ -1,24 +1,18 @@
-/* For mobile devices */
-@media only screen and (max-width: 600px)
-{
-	
-	input[type="text"],
-	input[type="email"],
-	input[type="password"],
-	.input-mobile
-	{
-		// padding: 10px;
-		// background: red !important;
-		opacity: 1;
-	}
-	
-	
-}
+$screen-breakpoint: 500px;
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-.input-mobile
-{
-	padding: 10px;
+/* For mobile devices */
+@media only screen and (max-width: $screen-breakpoint) {
+	.App {
+		grid-template-areas:
+			"header header header"
+			"main    main    main"
+			"nav     nav      nav";
+		nav {
+			background: #000;
+			height: 10vh;
+			.nav-label {
+				opacity: 1;
+			}
+		}
+	}
 }

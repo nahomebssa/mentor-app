@@ -1,13 +1,9 @@
 /* For mobile devices */
-@media only screen and (max-width: 600px) {
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  .input-mobile {
-    opacity: 1; } }
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-.input-mobile {
-  padding: 10px; }
+@media only screen and (max-width: 500px) {
+  .App {
+    grid-template-areas: "header header header" "main    main    main" "nav     nav      nav"; }
+    .App nav {
+      background: #000;
+      height: 10vh; }
+      .App nav .nav-label {
+        opacity: 1; } }

@@ -28,6 +28,7 @@ class HomeView extends Component {
 				Soluta tempore recusandae veritatis fugiat nostrum placeat, vitae, aliquid dolorum amet velit accusamus consectetur quisquam, nisi fuga voluptatum quam officiis dolore perferendis accusantium provident reiciendis! Totam voluptatem aliquam molestias deleniti?
 				Ipsum obcaecati dolores sint, quidem qui similique eveniet, quasi sed fugiat expedita iusto ut doloribus magnam magni veniam. Quisquam ipsum eligendi eius beatae nobis rem rerum voluptatum, distinctio voluptates non?</p>
 			</div>
+
 		)
 	}
 }

@@ -1,0 +1,15 @@
+/* For desktop devices */
+@media only screen and (min-width: 500px) {
+  .App {
+    grid-template-areas: "header header header" "nav main main" "nav main main"; }
+    .App .app-main {
+      grid-column: 1 / span 3;
+      padding-left: 15vw;
+      padding-right: 15vw; }
+    .App .app-nav {
+      width: 5vw;
+      margin: 5vh 5vw;
+      border-radius: 10px;
+      border: 1px solid rgba(238, 238, 238, 0.75); }
+      .App .app-nav .app-nav-label {
+        display: none; } }

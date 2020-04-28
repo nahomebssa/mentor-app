@@ -2,37 +2,37 @@ const DB = {
 	users: []
 }
 
-const FIELDS = [
-	"IT & Computer Science",
-	"Biology",
-	"Physics",
-	"Accounting",
-	"Health & Medicine",
-	"Educator"
-]
-
-
-for (let i = 1; i < 20; i++)
-{
-	DB.users.push({
-		username: `@user${i}`,
-		name: `User ${i}`,
-		email: `user${i}`,
-		bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi corporis quam, unde voluptate labore repellendus nisi facilis veniam. Laboriosam nulla fuga officia quidem sint qui odio amet pariatur quod corporis.",
-		areaOfExpertise: (() => {
-			let maxLen = Math.floor(Math.random() * 3)
-			const index = () => Math.floor(Math.random() * FIELDS.length)
-			const arr = []
-			while (maxLen-- > 0)
-			{
-				arr.push(FIELDS[index()])
-			}
-			return arr;
-		})(),
-		rating: Math.floor(Math.random() * 5),
-	})
+function DB_INIT() {
+	const FIELDS = [
+		"IT & Computer Science",
+		"Biology",
+		"Physics",
+		"Accounting",
+		"Health & Medicine",
+		"Educator"
+	]
+	for (let i = 1; i < 20; i++)
+	{
+		DB.users.push({
+			username: `@user${i}`,
+			name: `User ${i}`,
+			email: `user${i}`,
+			bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi corporis quam, unde voluptate labore repellendus nisi facilis veniam. Laboriosam nulla fuga officia quidem sint qui odio amet pariatur quod corporis.",
+			areaOfExpertise: (() => {
+				let maxLen = Math.floor(Math.random() * 3)
+				const index = () => Math.floor(Math.random() * FIELDS.length)
+				const arr = []
+				while (maxLen-- > 0)
+				{
+					arr.push(FIELDS[index()])
+				}
+				return arr;
+			})(),
+			rating: Math.floor(Math.random() * 5),
+		})
+	}
+	// LOG("DB", DB)
 }
-console.log("DB", DB)
 
 class SearchBox extends React.Component {
 	constructor(props) {
@@ -57,11 +57,14 @@ class SearchBox extends React.Component {
 					value={this.state.text}
 					onChange={this.onChange.bind(this)} />
 				<span className="test-output">{this.state.text}</span>
+				<input className="material-icons"
+					type="submit"
+					value="search"
+					onClick={() => { SearchManager.userExist({ name: this.state.searchText }); }} />
 			</div>
 		)
 	}
 }
-
 
 const Rating = (props) => {
 	
@@ -177,9 +180,6 @@ class ExploreView extends React.Component {
 				{/* <h1 className="title">Explore</h1> */}
 				<SearchBox
 					onTextChange={(text) => this.setState({ searchText: text })} />
-				<button onClick={() => { SearchManager.userExist({ name: this.state.searchText }); }}>
-					send data
-				</button>
 				<SearchResults
 					results={this.state.searchResults} />
 				
@@ -187,3 +187,5 @@ class ExploreView extends React.Component {
 		)
 	}
 }
+
+DB_INIT()

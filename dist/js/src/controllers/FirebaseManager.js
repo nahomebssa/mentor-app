@@ -16,14 +16,14 @@ class FirebaseManager {
 		
 		const result = firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(function(result) {
-			DBG("signInWithEmailAndPassword, HERE")
+			DBG(`signInWithEmailAndPassword, HERE`)
 			res = new FirebaseManager.AuthResult({ result: result, error: null });
-			ALERT(`${FNID}Signed in user:\n${result}`)
-			DBG(result)
+			ALERT(`Signed in user:\n${result}`)
+			DBG(`result: ${result}`)
 		}).catch(function(error) {
 			res = new FirebaseManager.AuthResult({ result: null, error });
-			ALERT(`${FNID}Error: couldn't sign in user\n${TAB}fberr: "${error}"`)
-			ERR(FNID, error)
+			ALERT(`Error: couldn't sign in user\n${TAB}fberr: "${error}"`)
+			ERR(`error: ${error}`)
 			// Handle Errors here.
 			var errorCode = error.code;
 			var errorMessage = error.message;
@@ -31,7 +31,7 @@ class FirebaseManager {
 		});
 		
 		const isAuthResult = res instanceof FirebaseManager.AuthResult
-		ALERT(`${FNID}res: ${res}\n${ isAuthResult ? "" : "not"} instanceof FirebaseManager.AuthResult`)
+		ALERT(`res: ${res}\n${ isAuthResult ? "" : "not"} instanceof FirebaseManager.AuthResult`)
 		return res;
 	}
 	

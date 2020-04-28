@@ -20,7 +20,7 @@ class SearchManager {
 	 * @param {SearchManager.SortType} sortBy
 	 * @returns {SearchManager.Result} ...
 	 */
-	searchFor({ query, sortBy }) {}
+	static searchFor({ query, sortBy }) {}
 
 	static userExist({ name }) {
 		var db = firebase.firestore();

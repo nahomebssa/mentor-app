@@ -44,8 +44,8 @@ class IAppController {
 
 class AppController {
 	constructor() {
-		// this._searchManager
-		this._authManager
+		// this._searchManager = new SearchManager()
+		this._authManager = new AuthenticationManager()
 	}
 
 	AuthManager() {

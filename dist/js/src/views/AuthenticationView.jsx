@@ -4,6 +4,8 @@ class SignInForm extends React.Component {
 		this.state = {
 			email: "user1@gmail.com",
 			password: "user001",
+			email: "",
+			password: "",
 			errorMessage: "",
 			gotSignedIn: false,
 		}
@@ -14,9 +16,9 @@ class SignInForm extends React.Component {
 	}
 
 	onSignInSuccess(result) {
-		const FNID = `[SignInForm#onSignInSuccess]`
-		// ALERT(`${FNID} Sign in successful!\n"${result}"`)
-		ALERT(`${FNID} Sign in successful!`)
+		
+		ALERT(`Sign in successful!`)
+		DBG(`Sign in successful!`)
 		
 		const {
 			history,
@@ -24,14 +26,14 @@ class SignInForm extends React.Component {
 		} = this.props
 
 		AuthenticationManager.setAuthState(AuthenticationManager.AuthState.SIGNEDIN)
-		
+
 		this.setState({ gotSignedIn: true })
 	}
 
 	onSignInFail(error) {
 		const FNID = `[SignInForm#onSignInFail]`
-		ALERT(`${FNID} Failed to sign in :( ...`)
-		ERR(FNID, error)
+		ALERT(`Failed to sign in :( ...`)
+		ERR(`error: ${error}`)
 
 		this.setState({ errorMessage: `${error}` })
 	}
@@ -74,11 +76,13 @@ class SignInForm extends React.Component {
 				</div>
 				<form>
 					<input
+						className="form-control form-input mb-3"
 						type="email"
 						placeholder="Email address"
 						value={this.state.email}
 						onChange={(event) => this.setState({ email: event.target.value })} />
 					<input
+						className="form-control form-input mb-3"
 						type="password"
 						placeholder="Password"
 						value={this.state.password}
@@ -103,70 +107,65 @@ class SignUpForm extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			fullName: "User One",
-			email: "user1@gmail.com",
-			password: "user001",
+			// fullName: "User One",
+			// email: "user1@gmail.com",
+			// password: "user001",
+			iFullName: "",
+			iEmail: "",
+			iPassword: "",
 			errorMessage: "",
 			gotSignedUp: false,
 		}
 		this.onSignUpSuccess = this.onSignUpSuccess.bind(this)
 		this.onSignUpFail = this.onSignUpFail.bind(this)
 	}
-	
 	onSignUpSuccess(result) {
-		const FNID = `[SignUpForm#onSignUpSuccess]`
-		ALERT(`${FNID} SUCCESS \n${result}`)
-		DBG(FNID, result)
 		
-		DBG(FNID, firebase.auth().currentUser)
-
-		// set user's name and other details (firebase.updateProfile)
-		const user = firebase.auth().currentUser;
-		user.updateProfile({
-			displayName: this.state.fullName,
-			//photoURL: "https://example.com/jane-q-user/profile.jpg"
-		}).then(function () {
-			// Update successful.
-			ALERT(`${FNID} updated profile`)
-		}).catch(function (error) {
-			// An error happened.
-			ALERT(`${FNID} failed to update profile`)
-			DBG(FNID, error)
-		});
-
-		// add user to db
-		const db = firebase.firestore()
-		const usersRef = db.collection("users")
-		usersRef.doc(result.user.uid).set({
-			isSetup: "no?false:true",
-			name: "<no name>",
-			bio: "<no bio>",
-		});
-
-
-		// this needs to happen last, it will re-render, and redirect the page
+		LOG("result: ", result)
+		console.log(
+			"AuthenticationManager.currentUser: ",
+			AuthenticationManager.currentUser
+		)
+		ALERT(`Sign up succeeded. Check the console for details`)
+		
+		// set user's name and other details
+		// actually handled by back-end
+		// const user = new UserModel({
+		// 	uid: result.user.uid,
+		// 	displayName: this.state.fullName,
+		// })
+		// DatabaseManager.updateUser(user)
+		// DatabaseManager.addUser(user)
+		
+		// this needs to happen last, as it will re-render, and redirect the page
 		this.setState({ gotSignedUp: true })
 	}
-	onSignUpFail(error) {  // {code, message} = error
-		const FNID = `[SignUpForm#onSignUpFail]`
-		ALERT(`${FNID} FAILED \n${error}`)
-		ERR(FNID, error)
+	onSignUpFail(error) {
+		ERR("error: ", error)
+		ALERT(`Sign up failed. Check the console for details.`)
 		this.setState({ errorMessage: `${error}` })
 	}
-
 	handleSignUp() {
+		
 		const {
-			email,
-			password
+			iEmail: email,
+			iPassword: password,
+			iFullName: displayName
 		} = this.state
-		ALERT(`Signing up...\nemail: ${email}\npassword: ${password}`)
+		console.log("state", { email, password })
+		ALERT(`Signing up... (see console)`)
 
-		firebase.auth().createUserWithEmailAndPassword(email, password)
-			.then(this.onSignUpSuccess)
-			.catch(this.onSignUpFail);
+		const userData = { displayName }
 
-	}	
+		/* const authResult =  */
+		AuthenticationManager.signUp({
+			provider: AuthenticationManager.AuthProvider.EMAIL,
+			email, password, userData,
+			onSuccess: this.onSignUpSuccess,
+			onFail: this.onSignUpFail,
+		})
 
+	}
 	render() {
 		const {
 			errorMessage,
@@ -185,27 +184,31 @@ class SignUpForm extends React.Component {
 				<div className={`msg-banner ${ hasError ? "--error" : "--hidden" }`}>
 					{message}
 				</div>
-				<div>
+				<form>
 					<input
+						className="form-control mb-3 px-4 py-4"
 						type="text"
 						placeholder="Full Name"
-						value={this.state.fullName}
-						onChange={(event) => this.setState({ fullName: event.target.value })} />
+						value={this.state.iFullName}
+						onChange={(event) => this.setState({ iFullName: event.target.value })} />
 					<input
+						className="form-control mb-3 px-4 py-4"
 						type="email"
 						placeholder="Email address"
-						value={this.state.email}
-						onChange={(event) => this.setState({ email: event.target.value })} />
+						value={this.state.iEmail}
+						onChange={(event) => this.setState({ iEmail: event.target.value })} />
 					<input
+						className="form-control mb-3 px-4 py-4"
 						type="password"
 						placeholder="Password"
-						value={this.state.password}
-						onChange={(event) => this.setState({ password: event.target.value })} />
+						value={this.state.iPassword}
+						onChange={(event) => this.setState({ iPassword: event.target.value })} />
 					<input
-						type="submit"
+						className="form-control btn btn-primary"
+						type="button"
 						value="Sign Up"
 						onClick={() => this.handleSignUp()} />
-				</div>
+				</form>
 			</div>
 		)
 	}
@@ -215,8 +218,7 @@ const SignOutForm = (props) => (null)
 // TODO: use flexbox
 class AuthenticationView extends React.Component {
 
-	constructor(props)
-	{
+	constructor(props) {
 		super(props)
 	}
 
@@ -241,7 +243,7 @@ class AuthenticationView extends React.Component {
 
 		return (
 			<div className="AuthenticationView">
-				{!signedOut ? <h1 className="title">Mentor Finder</h1> : null}
+				{!signedOut ? <h1 className="auth-title">Mentor Finder</h1> : null}
 				{authForm}
 			</div>
 		)

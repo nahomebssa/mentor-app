@@ -1,0 +1,29 @@
+$screen-breakpoint: 500px;
+$app-frame-opacity: 0.75;
+$app-nav-margin-x: 5vh;
+$app-nav-margin-y: 5vw;
+$app-nav-width: 5vw;
+
+/* For desktop devices */
+@media only screen and (min-width: $screen-breakpoint) {
+	.App {
+		grid-template-areas: 
+		"header header header"
+		"nav main main"
+		"nav main main";
+		.app-main {
+			grid-column: 1 / span 3;
+			padding-left: $app-nav-width + $app-nav-margin-y + $app-nav-margin-y;
+			padding-right: 15vw;
+		}
+		.app-nav {
+			width: $app-nav-width;
+			margin: $app-nav-margin-x $app-nav-margin-y;
+			border-radius: 10px;
+			border: 1px solid rgba(238, 238, 238, $app-frame-opacity);
+			.app-nav-label {
+				display: none;
+			}
+		}
+	}
+}

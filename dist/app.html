@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="icon" 		  type="image/png" href="./favicon.png">
+	<link rel="shortcut icon" type="image/png" href="./favicon.png">
     <title>Mentor Finder</title>
 	
 	<!-- App stylesheets -->
 	<!-- Should be included last to override any other stylesheets -->
-	<link rel="stylesheet" href="./css/mobile.css" type="text/css">
 	<link rel="stylesheet" href="./css/app.css" type="text/css">
+	<link rel="stylesheet" href="./css/desktop.css" type="text/css">
+	<link rel="stylesheet" href="./css/mobile.css" type="text/css">
 	
 	<!-- Bootstrap v4 -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -26,9 +29,7 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-	<a id="btn-refresh" href="http://localhost:5501/dist/app.html">
-		<i class="material-icons">refresh</i>
-	</a>
+	
     <div id="root">
         <!-- This will be filled in by React -->
 	</div>
@@ -60,6 +61,8 @@
     <script type="text/babel" src="./js/src/utils.js"></script>
 	
 	<!-- Models -->
+    <script type="text/babel" src="./js/src/models/Model.js"></script>
+    <script type="text/babel" src="./js/src/models/UserModel.js"></script>
     <script type="text/babel" src="./js/src/models/User.js"></script>
     <script type="text/babel" src="./js/src/models/Database.js"></script>
     <script type="text/babel" src="./js/src/models/Login.js"></script>
@@ -67,19 +70,23 @@
 	
 	<!-- Controllers -->
     <script type="text/babel" src="./js/src/controllers/FirebaseManager.js"></script>
+    <script type="text/babel" src="./js/src/controllers/DatabaseManager.js"></script>
     <script type="text/babel" src="./js/src/controllers/AuthenticationManager.js"></script>
-    <script type="text/babel" src="./js/src/controllers/InboxManager.js"></script>
+    <!-- <script type="text/babel" src="./js/src/controllers/InboxManager.js"></script> -->
     <script type="text/babel" src="./js/src/controllers/ProfileManager.js"></script>
     <script type="text/babel" src="./js/src/controllers/SearchManager.js"></script>
     <script type="text/babel" src="./js/src/controllers/index.js"></script>
 	
 	<!-- Views -->
-    <script type="text/babel" src="./js/src/controllers/AuthenticationView.js"></script>
-    <script type="text/babel" src="./js/src/views/ProfileView.js"></script>
-    <script type="text/babel" src="./js/src/views/InboxView.js"></script>
-    <script type="text/babel" src="./js/src/views/ExploreView.js"></script>
-    <script type="text/babel" src="./js/src/views/HomeView.js"></script>
+    <script type="text/babel" src="./js/src/views/AuthenticationView.jsx"></script>
+    <script type="text/babel" src="./js/src/views/ProfileView.jsx"></script>
+    <script type="text/babel" src="./js/src/views/InboxView.jsx"></script>
+    <script type="text/babel" src="./js/src/views/ExploreView.jsx"></script>
+    <script type="text/babel" src="./js/src/views/HomeView.jsx"></script>
 	
+	<!-- App wrapper class -->
+	<script type="text/babel" src="./js/src/App.jsx"></script>
+
 	<!-- main js (react) file, starting point -->
 	<script type="text/babel" src="./js/src/index.js"></script>
 	
@@ -97,6 +104,12 @@
 			})
 		})()
 	</script> -->
+
+	<script>
+		( _ => {
+			// const $btnRefresh = makeElement(`<a id="btn-refresh" href="http://localhost:8080/dist/app.html"><i class="material-icons">refresh</i></a>`)
+		})()
+	</script>
 
 </body>
 </html>

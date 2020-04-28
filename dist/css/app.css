@@ -4,14 +4,17 @@
   margin: 0;
   padding: 0;
   font-family: "Manrope", sans-serif;
-  user-select: none; }
+  user-select: none;
+  overflow: hidden; }
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 10px;
+  font-size: 16px; }
 
 html, body {
   height: 100%; }
-
-@media only screen and (min-width: 600px) {
-  body {
-    padding: 0 30vw; } }
 
 /* HTML DOM body */
 body {
@@ -22,60 +25,126 @@ body {
   flex: 1;
   display: flex; }
 
-/* App component*/
+/**
+* App
+*/
 .App {
   flex: 1;
-  display: flex;
-  flex-direction: column; }
-  .App > header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr; }
+  .App > .app-header {
+    grid-area: header; }
+  .App > .app-main {
+    grid-area: main; }
+  .App > .app-nav {
+    grid-area: nav; }
+  .App > .app-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 10vh;
     background-color: rgba(245, 245, 245, 0.75);
     border-bottom: 1px solid rgba(238, 238, 238, 0.75);
     backdrop-filter: blur(5px);
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    justify-content: center; }
-    .App > header h1 {
-      font-size: 18px;
-      font-weight: 300;
+    z-index: 50; }
+    .App > .app-header .app-branding {
+      flex: 1;
       text-align: center;
-      flex: 1; }
-  .App > main {
-    flex: 1;
-    height: 100%;
+      font-size: 18px;
+      font-weight: 300; }
+  .App > .app-main {
     background-color: #fafafa;
-    overflow-y: scroll;
-    padding-top: 20vh;
-    margin-top: -20vh; }
-  .App nav.AppTabs {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(245, 245, 245, 0.75);
-    border-top: 1px solid rgba(238, 238, 238, 0.75);
-    backdrop-filter: blur(10px); }
-    .App nav.AppTabs ul {
+    overflow-y: scroll; }
+    .App > .app-main [class$="View"] .title {
+      margin: 20px; }
+  .App > .app-nav {
+    display: flex; }
+    .App > .app-nav ul {
+      border-top: 1px solid rgba(238, 238, 238, 0.75);
+      background-color: rgba(245, 245, 245, 0.75);
+      backdrop-filter: blur(5px);
       list-style: none;
-      display: flex; }
-      .App nav.AppTabs ul li {
-        flex: 1;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0; }
+      .App > .app-nav ul li {
         display: flex;
-        align-items: center;
-        justify-content: center; }
-        .App nav.AppTabs ul li a {
-          width: 100%;
+        min-width: 5vw;
+        min-height: 5vw; }
+        .App > .app-nav ul li a {
+          flex: 1;
+          display: flex;
+          align-items: center;
           text-decoration: none;
-          padding: 2vh 20px;
-          text-align: center; }
-
-.App main [class$="View"] .title {
-  margin: 20px; }
+          text-align: center;
+          transition: max-width 200ms;
+          transition-delay: 0ms;
+          max-width: 5vw; }
+          .App > .app-nav ul li a .app-nav-icon {
+            font-size: 2.5vw;
+            margin: 0 1vw; }
+          .App > .app-nav ul li a .app-nav-label {
+            margin-bottom: 0; }
+          .App > .app-nav ul li a:hover {
+            background: pink;
+            max-width: 10vw; }
 
 /**
- * ExploreView
- */
+* AuthenticationView
+*/
+.AuthenticationView {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20vh 30vw;
+  background-color: #271b57; }
+  .AuthenticationView .auth-title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: -1.5px;
+    line-height: 36px;
+    color: white; }
+  .AuthenticationView .auth-form .msg-banner {
+    margin: 2vh 5vw;
+    padding: 2vh 4vw;
+    font-size: 14px;
+    max-width: 30vw; }
+    .AuthenticationView .auth-form .msg-banner.--error {
+      border: 1px solid #A00;
+      background: rgba(230, 90, 90, 0.5);
+      color: #800; }
+    .AuthenticationView .auth-form .msg-banner.--success {
+      border: 1px solid #00aa4d;
+      background: rgba(106, 230, 90, 0.5);
+      color: #008807; }
+    .AuthenticationView .auth-form .msg-banner.--hidden {
+      opacity: 0;
+      display: none; }
+  .AuthenticationView .auth-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .AuthenticationView .auth-form form input[type="submit"],
+    .AuthenticationView .auth-form form input[type="button"] {
+      width: 10vw;
+      align-self: center; }
+  .AuthenticationView .auth-form #btns {
+    display: flex;
+    padding: 10px; }
+
+/**
+* ExploreView
+*/
 .ExploreView {
   display: flex;
   flex-direction: column; }
@@ -113,92 +182,44 @@ body {
           color: yellow; }
 
 /**
- * ProfileView
- */
+* ProfileView
+*/
 .ProfileView > div {
   display: flex;
   flex-direction: column; }
   .ProfileView > div .profile-form {
     display: flex;
     flex-wrap: wrap; }
-    .ProfileView > div .profile-form > * {
-      margin: 10px 20px; }
-    .ProfileView > div .profile-form > *:nth-child(even) {
-      flex: 70%; }
-    .ProfileView > div .profile-form > *:nth-child(odd) {
-      flex: 30%; }
+    .ProfileView > div .profile-form > *:nth-child(odd),
+    .ProfileView > div .profile-form > .label {
+      flex: 30%;
+      max-width: 30vw; }
+    .ProfileView > div .profile-form > *:nth-child(even),
+    .ProfileView > div .profile-form > .input {
+      flex: 70%;
+      max-width: 70vw; }
+    .ProfileView > div .profile-form .grid-dummy {
+      opacity: 0; }
     .ProfileView > div .profile-form > *:last-child {
       flex: 100%; }
     .ProfileView > div .profile-form textarea {
       min-height: 30vh;
       padding: 10px; }
-    .ProfileView > div .profile-form label {
+    .ProfileView > div .profile-form .label {
       display: flex;
-      align-items: flex-start; }
-      .ProfileView > div .profile-form label span {
-        width: 30%; }
-      .ProfileView > div .profile-form label input,
-      .ProfileView > div .profile-form label textarea {
-        width: 70%; }
+      align-items: center;
+      max-height: 5vh; }
+    .ProfileView > div .profile-form .form-section {
+      font-size: 1.3rem;
+      font-weight: bold; }
     .ProfileView > div .profile-form #btns {
       display: flex; }
       .ProfileView > div .profile-form #btns:first-child {
         flex: 1; }
 
 /**
- * AuthenticationView
- */
-.AuthenticationView {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: #271b57;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 100; }
-  .AuthenticationView .title {
-    text-align: center;
-    font-size: 36px;
-    font-weight: bold;
-    letter-spacing: -1.5px;
-    line-height: 36px;
-    color: white; }
-  .AuthenticationView .auth-form .msg-banner {
-    margin: 2vh 5vw;
-    padding: 2vh 4vw;
-    font-size: 14px; }
-    .AuthenticationView .auth-form .msg-banner.--error {
-      border: 1px solid #A00;
-      background: rgba(230, 90, 90, 0.5);
-      color: #800; }
-    .AuthenticationView .auth-form .msg-banner.--success {
-      border: 1px solid #00aa4d;
-      background: rgba(106, 230, 90, 0.5);
-      color: #008807; }
-    .AuthenticationView .auth-form .msg-banner.--hidden {
-      opacity: 0;
-      display: none; }
-  .AuthenticationView .auth-form > div,
-  .AuthenticationView .auth-form form {
-    display: flex;
-    flex-direction: column; }
-    .AuthenticationView .auth-form > div input[type="submit"],
-    .AuthenticationView .auth-form > div input[type="button"],
-    .AuthenticationView .auth-form form input[type="submit"],
-    .AuthenticationView .auth-form form input[type="button"] {
-      align-self: center; }
-  .AuthenticationView .auth-form #btns {
-    display: flex;
-    align-self: flex-end;
-    padding: 10px; }
-
-/**
- * InboxView
- */
+* InboxView
+*/
 .InboxView {
   display: flex;
   height: 100%; }
@@ -209,8 +230,8 @@ body {
     justify-content: center; }
 
 /**
- * Misc.
- */
+* Misc.
+*/
 body #btn-refresh {
   position: absolute;
   top: 20px;
@@ -226,11 +247,7 @@ body #btn-refresh {
   font-weight: 900;
   text-decoration: none;
   z-index: 1000;
-  opacity: 0;
   z-index: 1000; }
-  body #btn-refresh::hover {
+  body #btn-refresh:hover {
     opacity: 1;
     z-index: 1000; }
-
-body .test-output {
-  font-family: monospace; }
