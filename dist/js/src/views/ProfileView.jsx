@@ -176,7 +176,7 @@ class ProfileView extends React.Component {
 			{
 				onSuccess: (user) => {
 					if (user.exists) {
-						console.info("[onSuccess] user: ", user)
+						INFO("[onSuccess] user: ", user)
 						const userData = user.data()
 						this.setState({
 							...this.state,

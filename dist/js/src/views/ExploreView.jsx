@@ -210,9 +210,36 @@ class ExploreView extends React.Component {
 		// 	},
 		// 	onError: (err) => { ERR("[onSearchHandler] err: ", err) },
 		// });
+		const newRes = this.state.users.map( (user, i) => this.matchesQuery(user) ? user : null )
+		// const newRes = this.state.users.map(this.matchesQuery, this)
+		DBG("newRes: ", newRes)
 		this.setState({
-			searchResults: this.state.users.map( (user, i) => (user.fields[0].startsWith(this.state.searchText)) )
+			searchResults: newRes
 		})
+	}
+
+	matchesQuery(user) {
+		const matches = (user.fields.length > 0) ? user.fields[0].toLowerCase().startsWith(this.state.searchText) : false
+		if (user.fields && user.fields.length > 0) {
+			const param = user.fields[0].toLowerCase()
+			const query = this.state.searchText.toLowerCase()
+			const check = param.startsWith(query)
+			// DBG("user.fields: ", user.fields)
+			// DBG("user.fields[0]: ", user.fields[0])
+			// DBG("user.fields[0].toLowerCase(): ", user.fields[0].toLowerCase())
+			// DBG("this.state.searchText: ", )
+			// DBG("user.fields[0].toLowerCase().startsWith(): ", user.fields[0].toLowerCase().startsWith(this.state.searchText))
+			DBG(` (${param}) startsWith (${query}): `, check)
+			// DBG("check: ", check)
+			return check
+		}
+		else {
+			// DBG("[ x ] user.fields: ", user.fields)
+			return false
+		}
+		// ALERT(` ${strJSON(user)} ${ matches ? "matches" : "doesnt match"} `)
+
+		return matches
 	}
 
 	render () {
@@ -226,7 +253,13 @@ class ExploreView extends React.Component {
 				{/* <SearchResults
 					results={this.state.searchResults} /> */}
 				<div className="SearchResults">
-					{ this.state.searchResults.map( (user, i) => <UserCard key={i} user={user} />) }
+					{this.state.searchResults.map( (user, i) =>
+						{
+							DBG("user n: ", user)
+							if (user)
+								return <UserCard key={i} user={user} />
+						}
+					)}
 				</div>
 				
 			</div>

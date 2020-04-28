@@ -148,12 +148,12 @@ class DatabaseManager {
 			.then(function(querySnapshot) {
 				querySnapshot.forEach(function(doc) {
 					// doc.data() is never undefined for query doc snapshots
-					// console.log("entry: ", doc.id, " => ", doc.data());
+					// DBG("entry: ", doc.id, " => ", doc.data());
 					onSuccess(doc.data())
 				});
 			})
 			.catch(function(error) {
-				console.log("Error getting documents: ", error);
+				DBG("Error getting documents: ", error);
 			});
 
 	}
@@ -174,11 +174,11 @@ class DatabaseManager {
 			.then(function(querySnapshot) {
 				querySnapshot.forEach(function(doc) {
 					// doc.data() is never undefined for query doc snapshots
-					console.log(doc.id, " => ", doc.data());
+					DBG(doc.id, " => ", doc.data());
 				});
 			})
 			.catch(function(error) {
-				console.log("Error getting documents: ", error);
+				DBG("Error getting documents: ", error);
 			});
 	}
 

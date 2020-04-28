@@ -70,8 +70,8 @@ const _log = function(tag, lvl = 0, ...args) {
 	_logger(`${FNID(2)}${spacing}${tag}`, ...args)
 }
 // ----------------------------------------------
-	const __DEBUG__ = true;
-	// const __DEBUG__ = false;
+	// const __DEBUG__ = true;
+	const __DEBUG__ = false;
 // ----------------------------------------------
 const SETDEBUG = (b) => { __DEBUG__ = b ? true : false }
 let ALERT = () => {},

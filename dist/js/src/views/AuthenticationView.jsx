@@ -219,9 +219,9 @@ class SignUpForm extends React.Component {
 						onChange={(event) => this.setState({ iPassword: event.target.value })} />
 					<select
 						className="form-control mb-3"
-						defaultValue="Area of Expertise"
+						defaultValue="Area of Interest"
 						onChange={ event => { this.setState({ iAreaOfExpertise: event.target.value}) } }>
-						<option value="Area of Expertise">Area of Expertise</option>
+						<option value="Area of Interest">Area of Expertise</option>
 						{LIST_OF_MAJORS.map((m, i) => (
 							<option key={i} value={m}>
 								{m}
