@@ -21,9 +21,37 @@ $app-nav-width: 5vw;
 			margin: $app-nav-margin-x $app-nav-margin-y;
 			border-radius: 10px;
 			border: 1px solid rgba(238, 238, 238, $app-frame-opacity);
+			ul {
+				li {
+					a {
+						justify-content: center;
+					}
+				}
+			}
 			.app-nav-label {
 				display: none;
+				margin: 0;
 			}
 		}
+
+		.AuthenticationView {
+			padding: 20vh 30vw;
+			.auth-title {
+				margin-bottom: 30px;
+			}
+			.auth-form {
+				$g-width: 30vw;
+				.msg-banner {
+					width: $g-width;
+				}
+				form {
+					.form-input {
+						width: $g-width;
+					}		
+				}
+			}
+		
+		}
+
 	}
 }

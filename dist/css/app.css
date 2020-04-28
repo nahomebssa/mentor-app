@@ -55,7 +55,8 @@ body {
       font-weight: 300; }
   .App > .app-main {
     background-color: #fafafa;
-    overflow-y: scroll; }
+    overflow-y: scroll;
+    padding-right: 10vw; }
     .App > .app-main [class$="View"] .title {
       margin: 20px; }
   .App > .app-nav {
@@ -67,7 +68,8 @@ body {
       list-style: none;
       display: flex;
       flex-direction: column;
-      margin-bottom: 0; }
+      margin-bottom: 0;
+      box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5); }
       .App > .app-nav ul li {
         display: flex;
         min-width: 5vw;
@@ -82,12 +84,12 @@ body {
           transition-delay: 0ms;
           max-width: 5vw; }
           .App > .app-nav ul li a .app-nav-icon {
-            font-size: 2.5vw;
+            font-size: 30px;
             margin: 0 1vw; }
           .App > .app-nav ul li a .app-nav-label {
             margin-bottom: 0; }
           .App > .app-nav ul li a:hover {
-            background: pink;
+            background: transparent;
             max-width: 10vw; }
 
 /**
@@ -105,7 +107,6 @@ body {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  padding: 20vh 30vw;
   background-color: #271b57; }
   .AuthenticationView .auth-title {
     text-align: center;
@@ -132,14 +133,13 @@ body {
       display: none; }
   .AuthenticationView .auth-form form {
     display: flex;
-    flex-direction: column;
-    align-items: center; }
+    flex-direction: column; }
     .AuthenticationView .auth-form form input[type="submit"],
     .AuthenticationView .auth-form form input[type="button"] {
-      width: 10vw;
       align-self: center; }
   .AuthenticationView .auth-form #btns {
     display: flex;
+    align-self: flex-end;
     padding: 10px; }
 
 /**
@@ -200,6 +200,10 @@ body {
       max-width: 70vw; }
     .ProfileView > div .profile-form .grid-dummy {
       opacity: 0; }
+    .ProfileView > div .profile-form .my-checkbox {
+      padding: 20px;
+      height: 20px;
+      width: 20px; }
     .ProfileView > div .profile-form > *:last-child {
       flex: 100%; }
     .ProfileView > div .profile-form textarea {

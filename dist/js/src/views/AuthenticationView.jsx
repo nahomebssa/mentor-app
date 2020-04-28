@@ -17,8 +17,8 @@ class SignInForm extends React.Component {
 
 	onSignInSuccess(result) {
 		
+		// DBG(`Sign in successful!`)
 		ALERT(`Sign in successful!`)
-		DBG(`Sign in successful!`)
 		
 		const {
 			history,
@@ -122,7 +122,7 @@ class SignUpForm extends React.Component {
 	onSignUpSuccess(result) {
 		
 		LOG("result: ", result)
-		console.log(
+		DBG(
 			"AuthenticationManager.currentUser: ",
 			AuthenticationManager.currentUser
 		)
@@ -152,7 +152,7 @@ class SignUpForm extends React.Component {
 			iPassword: password,
 			iFullName: displayName
 		} = this.state
-		console.log("state", { email, password })
+		DBG("state", { email, password })
 		ALERT(`Signing up... (see console)`)
 
 		const userData = { displayName }

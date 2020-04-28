@@ -68,11 +68,11 @@ let ALERT = () => {},
 if (__DEBUG__)
 {
 	ALERT = (msg, ...args) => alert(`${FNID(1)}\n${msg}`, ...args)
-	INFO  = (msg) => _log(msg, LoggerLevel.INFO)
-	LOG   = (msg) => _log(msg, LoggerLevel.LOG)
-	DBG   = (msg) => _log(msg, LoggerLevel.DEBUG)
-	WARN  = (msg) => _log(msg, LoggerLevel.WARN)
-	ERR   = (msg) => _log(msg, LoggerLevel.ERROR)
+	INFO  = (msg, args) => _log(msg, LoggerLevel.INFO, args)
+	LOG   = (msg, args) => _log(msg, LoggerLevel.LOG, args)
+	DBG   = (msg, args) => _log(msg, LoggerLevel.DEBUG, args)
+	WARN  = (msg, args) => _log(msg, LoggerLevel.WARN, args)
+	ERR   = (msg, args) => _log(msg, LoggerLevel.ERROR, args)
 }
 
 const quickReloadEnabled = (shouldBe) => {

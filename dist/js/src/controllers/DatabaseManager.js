@@ -5,7 +5,7 @@ class DatabaseManager {
 	}
 
 	static addUser1(/* UserModel */ user) {
-		_typeCheck(user, UserModel, `_tC: Could not add user "${user}"`)
+		_typeCheck(user, UserModel, `[_typeCheck]: Could not add user "${user}"`)
 		// const db = firebase.firestore()
 		// const usersRef = db.collection("users")
 		// usersRef.doc(user.uid).set({
@@ -14,15 +14,36 @@ class DatabaseManager {
 		// });
 	}
 
+	static setUserModel(userModel) {
+		DBG("Setting g_userModel", userModel);
+		g_databaseManager.userModel = userModel
+	}
+	static getUserModel() { return g_databaseManager.userModel }
 	static getUserModelData() { return g_databaseManager.userModel.data }
-	static setUserModelData(newData) { g_databaseManager.userModel.setData(newData) }
+	static setUserModelData(newData) {
+		DBG("Setting g_userModel.data", newData);
+		g_databaseManager.userModel.setData(newData)
+	}
 	static getUsersRef() { return firebase.firestore().collection('users') }
 	static getUserRef(uid) { return firebase.firestore().collection('users').doc(uid) }
+	static getCurrentProfile() { return g_databaseManager.userModel.data }
 
 	static createUser(uid, userData) {
 		ALERT("Creating new user")
 		g_databaseManager.userModel = new UserModel({})
 		DatabaseManager.createUserRecord(uid, userData)
+	}
+
+	static getUserRecord(
+		uid,
+		{
+			onSuccess = () => {},
+			onError = () => {},
+		}
+	) {
+		DatabaseManager.getUserRef(uid).get()
+			.catch( (prev) => { onError(prev) } )
+			.then( (prev) => { onSuccess(prev) } )
 	}
 
 	static updateUser(userData) {
@@ -32,10 +53,10 @@ class DatabaseManager {
 			//photoURL: "https://example.com/jane-q-user/profile.jpg"
 		})
 			.then(() => { 
-				console.log("Tried to update current user profile: success")
+				DBG("Tried to update current user profile: success")
 			 })
 			.catch(() => { 
-				console.log("Tried to update current user profile: failed")
+				DBG("Tried to update current user profile: failed")
 			 });
 
 		DatabaseManager.updateUserRecord()
@@ -48,7 +69,7 @@ class DatabaseManager {
 		DatabaseManager.setUserModelData(newRecord)
 		DatabaseManager.getUserRef(uid).set(DatabaseManager.getUserModelData())
 			.then(user => {
-				console.log("userModel: ", g_databaseManager.userModel)
+				DBG("[createUserRecord] userModel: ", g_databaseManager.userModel)
 				ALERT("User records got updated... (see console)")
 			})
 			.catch(err => {
@@ -65,7 +86,7 @@ class DatabaseManager {
 			...g_databaseManager.userModel.data
 		})
 			.then(user => {
-				console.log("userModel: ", g_databaseManager.userModel)
+				DBG("[updateUserRecorde] userModel: ", g_databaseManager.userModel)
 				ALERT("User records got updated... (see console)")
 			})
 			.catch(err => {

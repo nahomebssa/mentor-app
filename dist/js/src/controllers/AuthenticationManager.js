@@ -55,7 +55,7 @@ class AuthenticationManager {
 
 	static _signUpSuccess(prev, userData, next) {
 		DBG("Signup success prev: ", prev || "prev")
-		console.log("prev.user.uid: ", prev.user.uid)
+		DBG("prev.user.uid: ", prev.user.uid)
 		DatabaseManager.createUser(prev.user.uid, userData)
 		next(prev)
 	}
@@ -98,7 +98,7 @@ class AuthenticationManager {
 				.then(user => {
 					if (user.exists) {
 						const userData = user.data()
-						console.log('Document data:', userData);
+						DBG('[_makeUserModel] Document data:', userData);
 						g_databaseManager.userModel.setData({
 							uid: user.data().uid || null,
 							username: user.data().username || null,
@@ -110,7 +110,7 @@ class AuthenticationManager {
 							linkedIn: user.data().linkedIn || null,
 							skype: user.data().skype || null,
 						})
-						console.log("userModel: ", g_databaseManager.userModel)
+						DBG("[_makeUserModel] userModel: ", g_databaseManager.userModel)
 					}
 				})
 				.catch(err => {

@@ -6,4 +6,6 @@
       background: #000;
       height: 10vh; }
       .App nav .nav-label {
-        opacity: 1; } }
+        opacity: 1; }
+    .App .AuthenticationView form {
+      min-width: 60vw; } }

@@ -54,6 +54,7 @@ const FormInputCheck = (props) => {
 		<input
 			className="my-checkbox"
 			type="checkbox"
+			value={props.value}
 			checked={props.checked}
 			onChange={props.onChange} />
 	)
@@ -101,48 +102,75 @@ class ProfileView extends React.Component {
 	constructor(props) {
 		
 		super(props)
-		console.log("props.profile: ", this.props.profile)
+		DBG("props.profile: ", this.props.profile)
 		
 		// props passed in as attributes ... nvm
 		// const {
 		// 	profile = {}
 		// } = this.props
 
-		// The
+		// The profile should be retrived from DatabaseManager
+		const profile = DatabaseManager.getCurrentProfile()
+		DBG("DatabaseManager.getCurrentProfile: ", profile)
 		
 		// maintain the state of the profile view
-		this.state = {		
-			// profile: props.profile || DEFAULT_PROFILE || { isEmptyProfile: true, }
-			profile: profile || { isEmptyProfile: true },
+		this.state = {
+			profile: this.props.profile || { isEmptyProfile: true },
+			menteeCheckValue: "null",
 		}
+		this.initProfile()
 		
-		// ProfileForm
 		this.saveChanges = this.saveChanges.bind(this)
-		
-		this.onProfileRefGet = this.onProfileRefGet.bind(this);
-		this.onProfileRefGetError = this.onProfileRefGetError.bind(this);
 		this.loadProfile = this.loadProfile.bind(this);
 
 		// get profile from firebase
-		this.loadProfile()
+		// this.loadProfile()
+	}
+
+	initProfile() {
+		this.state = {
+			...this.state,
+			iName: "",
+			iUsername: "",
+			iIsMentee: false,
+			iBio: "",
+			iEmail: "",
+			iLinkedIn: "",
+			iSkype: "",
+		}
 	}
 
 	loadProfile() {
-		// ProfileManager.saveChanges({})
-		const { profile } = this.state
-		this.state = ({
-			...this.state,
-			// ProfileForm
-			iName: profile.displayName || "",
-			iUsername: profile.username || "",
-			iIsMentee: profile.isMentee || false,
-			iBio: profile.bio || "",
-			iEmail: profile.email || "",
-			iLinkedIn: profile.linkedIn || "",
-			iSkype: profile.skype || "",
-		})
+		const uid = AuthenticationManager.currentUser.uid
+		DBG(uid)
+		DatabaseManager.getUserRecord(
+			uid,
+			{
+				onSuccess: (user) => {
+					if (user.exists) {
+						console.info("[onSuccess] user: ", user)
+						const userData = user.data()
+						this.setState({
+							...this.state,
+							// ProfileForm
+							iName: userData.displayName || "",
+							iUsername: userData.username || "",
+							iIsMentee: userData.isMentee || false,
+							iBio: userData.bio || "",
+							iEmail: userData.email || "",
+							iLinkedIn: userData.linkedIn || "",
+							iSkype: userData.skype || "",
+						})
+					}
+				}
+			}
+		)
 	}
 
+	componentDidMount() {
+		this.loadProfile()
+	}
+	
 	onProfileUpdated() {
 		alert("Your changes have been saved.")
 	}
@@ -168,14 +196,14 @@ class ProfileView extends React.Component {
 			linkedIn,
 			skype,
 		}
-		console.log(`ProfileForm.state (formInput)`, _userInput)
+		DBG(`ProfileForm.state (formInput)`, _userInput)
 		ALERT(`Check console for ProfileForm.state`)
 		
 		// return
 		
 		// DBG("result: ", result)
 		DBG(`Saving changes...`)
-		console.log("_userInput: ", _userInput)
+		DBG("_userInput: ", _userInput)
 		ALERT("Trying to successfully save changes... (see console)")
 		
 		// DatabaseManager.userModel.setData({
@@ -188,36 +216,7 @@ class ProfileView extends React.Component {
 
 	}
 
-	onProfileRefGet(doc) {
-		const ptrThis = this
-		
-		if (doc.exists) {
-			const profile = doc.data()
-			ptrThis.setState({
-				// name: firebase.auth().currentUser.displayName,
-				profile,
-				iName: profile.name,
-				iUsername: profile.username,
-				iBio: profile.bio,
-				iEmail: profile.email,
-				iLinkedIn: profile.linkedIn,
-				iSkype: profile.skype,
-			})
-			// this.forceUpdate()
-			DBG(`this.state.profile`, this.state.profile)
-			// ALERT(`doc exists`)
-		} else {
-			console.log("No such document 'doc.data()' defined!")
-		}
-	}
-
-	onProfileRefGetError(error) {
-		console.log("Error getting document:", error);
-		ALERT(`Error getting document: ${error}`)
-	}
-
 	render () {
-		
 		const {
 			profile
 		} = this.state
@@ -243,6 +242,7 @@ class ProfileView extends React.Component {
 
 							<FormInputCheck
 								label="Mentee"
+								value={this.state.menteeCheckValue}
 								checked={this.state.iIsMentee}
 								onChange={ event => this.setState({ iIsMentee: event.target.checked }) } />
 

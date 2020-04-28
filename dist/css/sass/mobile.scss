@@ -14,5 +14,11 @@ $screen-breakpoint: 500px;
 				opacity: 1;
 			}
 		}
+
+		.AuthenticationView {
+			form {
+				min-width: 60vw;
+			}
+		}
 	}
 }

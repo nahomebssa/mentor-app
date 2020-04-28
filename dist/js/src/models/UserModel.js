@@ -2,14 +2,14 @@ class UserModel extends Model {
 	
 	constructor({
 		uid = Model.UNKOWNN,
-		username = Model.UNKOWNN,
-		displayName = "",
+		username = null,
+		displayName = null,
 		profilePicture = null,
 		isMentee = false,
 		fields = [],
-		email = Model.UNKOWNN,
-		linkedIn = Model.UNKOWNN,
-		skype = Model.UNKOWNN,
+		email = null,
+		linkedIn = null,
+		skype = null,
 	}) {
 		super()
 		this.data = {
@@ -27,7 +27,7 @@ class UserModel extends Model {
 	get skype() { return this.data.skype }
 
 	setData(newData) {
-		console.log("setting new data")
+		DBG("setting new data", newData)
 		this.data = { ...this.data, ...newData }
 	}
 	

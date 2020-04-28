@@ -11,5 +11,16 @@
       margin: 5vh 5vw;
       border-radius: 10px;
       border: 1px solid rgba(238, 238, 238, 0.75); }
+      .App .app-nav ul li a {
+        justify-content: center; }
       .App .app-nav .app-nav-label {
-        display: none; } }
+        display: none;
+        margin: 0; }
+    .App .AuthenticationView {
+      padding: 20vh 30vw; }
+      .App .AuthenticationView .auth-title {
+        margin-bottom: 30px; }
+      .App .AuthenticationView .auth-form .msg-banner {
+        width: 30vw; }
+      .App .AuthenticationView .auth-form form .form-input {
+        width: 30vw; } }
