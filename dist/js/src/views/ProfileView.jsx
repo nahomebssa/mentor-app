@@ -71,6 +71,33 @@ const FormInputCheck = (props) => {
 		</div>
 	]
 }
+const FormInputComboBox = (props) => {
+	const inputControl = (
+		<select
+			className="form-control mb-3"
+			defaultValue={props.defaultValue}
+			onChange={props.onChange}>
+			<option value={props.defaultValue}>{props.defaultValue}</option>
+			{props.options.map((m, i) => (
+				<option key={i} value={m}>
+					{m}
+				</option>
+			))}
+		</select>		
+	)
+	return [
+		<span
+			key={0}
+			className="label">
+				{props.label}
+		</span>,
+		<div
+			key={1}
+			className="input-group">
+			{inputControl}
+		</div>
+	]
+}
 const FormSectionTitle = (props) => (
 	[
 		<span key={0} className="form-section">
@@ -157,6 +184,7 @@ class ProfileView extends React.Component {
 							iName: userData.displayName || "",
 							iUsername: userData.username || "",
 							iIsMentee: userData.isMentee || false,
+							iAreaOfExpertise: userData.fields[0] || "",
 							iBio: userData.bio || "",
 							iEmail: userData.email || "",
 							iLinkedIn: userData.linkedIn || "",
@@ -249,17 +277,10 @@ class ProfileView extends React.Component {
 								checked={this.state.iIsMentee}
 								onChange={ event => this.setState({ iIsMentee: event.target.checked }) } />
 
-							<select
-								className="form-control mb-3"
-								defaultValue="Area of Expertise"
-								onChange={ event => { this.setState({ iAreaOfExpertise: event.target.value}) } }>
-								<option value="Area of Expertise">Area of Expertise</option>
-								{LIST_OF_MAJORS.map((m, i) => (
-									<option key={i} value={m}>
-										{m}
-									</option>
-								))}
-							</select>
+							<FormInputComboBox
+								defaultValue={this.state.iAreaOfExpertise}
+								onChange={ event => { this.setState({ iAreaOfExpertise: event.target.value}) } }
+								options={LIST_OF_MAJORS} />
 
 							<FormInputText
 								label="Bio"
