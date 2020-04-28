@@ -12,8 +12,6 @@ class SignInForm extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			email: "user1@gmail.com",
-			password: "user001",
 			email: "",
 			password: "",
 			errorMessage: "",
@@ -41,11 +39,10 @@ class SignInForm extends React.Component {
 	}
 
 	onSignInFail(error) {
-		const FNID = `[SignInForm#onSignInFail]`
 		ALERT(`Failed to sign in :( ...`)
-		ERR(`error: ${error}`)
+		ERR(`error: `, error)
 
-		this.setState({ errorMessage: `${error}` })
+		this.setState({ errorMessage: `${error.message}` })
 	}
 
 	handleSignIn() {
@@ -221,7 +218,7 @@ class SignUpForm extends React.Component {
 						className="form-control mb-3"
 						defaultValue="Area of Interest"
 						onChange={ event => { this.setState({ iAreaOfExpertise: event.target.value}) } }>
-						<option value="Area of Interest">Area of Expertise</option>
+						<option value="Area of Interest">Area of Interest</option>
 						{LIST_OF_MAJORS.map((m, i) => (
 							<option key={i} value={m}>
 								{m}

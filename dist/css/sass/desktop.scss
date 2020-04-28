@@ -22,7 +22,11 @@ $app-nav-width: 5vw;
 			border-radius: 10px;
 			border: 1px solid rgba(238, 238, 238, $app-frame-opacity);
 			ul {
+				display: flex;
+				flex-direction: column;
 				li {
+					min-width: 5vw;
+					min-height: 5vw;
 					a {
 						justify-content: center;
 					}

@@ -4,26 +4,78 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>index - Mentor Finder</title>
+	
+	<!-- Bootstrap v4 -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	
 	<link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-
-
-	<div id="root">
-
+	
+	
+	<!-- <div id="root">
+		
 		<h1>Mentor Finder</h1>
 		<p>Your mentor search ends here.</p>
 		<a href="#learn-more">Learn More</a>
 		<a href="./app.html" id="btn-app">Go to App</a>
-
-
+		
+		
 		<section id="learn-more"></section>
+		
+	</div> -->
+	
+	
+	<div id="root">
+		
+		<nav class="navbar navbar-expand-lg navbar-light container">
+			<a class="navbar-brand" href="./index.html">Mentor Finder</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#about">About</a>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<a href="app.html" class="btn btn-primary my-2 my-sm-0">Sign In</a>
+				</form>
+			</div>
+		</nav>
+		
+		<section class="hero container">
+			<div class="jumbotron">
+				<h1 class="display-4">Your mentor search ends here.</h1>
+				<p class="lead">This isn't your average mentor here. Mentor Finder has been designed from the start with users needs in mind, at every step of the way. It features a simple yet elegant design, along with features to enhance your search for help.</p>
+				<hr class="my-4">
+				<!-- <p>It uses utility classes for typography and spacing to space content out within the larger container.</p> -->
+				<a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+			</div>
+			<div class="clip-art">
+				<img src="./assets/landing-page-clipart.png" alt="Landing page clip art">
+			</div>
+		</section>
+
+		<section id="about" class="container">
+			<h1>About</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit sequi recusandae, natus odio officiis doloremque at, sint necessitatibus quisquam voluptas expedita consectetur accusamus nemo voluptatibus impedit distinctio. Cumque, illum dolorem.</p>
+		</section>
+		
+		<footer>
+			&copy Copyright 2020 Team 005
+		</footer>
 
 	</div>
-
-
+	
+	
 	<!-- Scripts -->
 	<script src="./js/script.js"></script>
-
+	
 </body>
 </html>

@@ -309,7 +309,7 @@ class ProfileView extends React.Component {
 							
 							<FormInputText
 								label="LinkedIn"
-								placeholder="Username"
+								placeholder="Profile URL"
 								value={this.state.iLinkedIn}
 								onChange={ event => this.setState({ iLinkedIn: event.target.value }) } />
 							

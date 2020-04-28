@@ -12,15 +12,29 @@ $screen-breakpoint: 500px;
 			height: 10vh;
 			ul {
 				flex: 1;
+				li {
+					flex: 1;
+					a {
+						flex: 1;
+					}
+				}
 			}
 			.nav-label {
-				opacity: 1;
+				opacity: 0;
+				display: none;
 			}
 		}
 
 		.AuthenticationView {
 			form {
 				min-width: 60vw;
+			}
+		}
+
+
+		.UserCard {
+			.contact-tag {
+				max-width: 200px;
 			}
 		}
 	}

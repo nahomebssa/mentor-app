@@ -4,3 +4,49 @@
   background-color: #00f;
   margin: 10px;
   padding: 10px; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+html, body {
+  height: 100%; }
+
+body {
+  display: grid;
+  font-family: "Manrope", sans-serif; }
+
+#root {
+  display: flex;
+  flex-direction: column;
+  background: #cce2ea; }
+  #root .navbar, #root .jumbotron {
+    background: transparent; }
+  #root .navbar {
+    padding: 3vw 0; }
+  #root footer {
+    background: #212121;
+    color: #fafafa;
+    padding: 30px 0 20vh 30px; }
+  #root section {
+    margin: 20vh auto; }
+  #root .hero {
+    display: flex;
+    margin: 20vh auto;
+    margin-top: 15vh; }
+    #root .hero .jumbotron {
+      flex: 5; }
+    #root .hero .clip-art {
+      flex: 8; }
+    #root .hero .jumbotron {
+      margin-bottom: 0;
+      zoom: 0.8; }
+    #root .hero .clip-art {
+      overflow: hidden; }
+      #root .hero .clip-art img {
+        position: relative;
+        left: -200px;
+        height: 100%; }
+
+/* For mobile devices */
+/* For desktop devices */

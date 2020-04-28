@@ -1,7 +1,79 @@
+$screen-breakpoint: 500px;
+
 #btn-app {
 	text-decoration: none;
 	color: white;
 	background-color: #00f;
 	margin: 10px;
 	padding: 10px;
+}
+
+* { margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+	display: grid;
+	font-family: "Manrope", sans-serif;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
+
+	background: #cce2ea;
+
+	.navbar, .jumbotron {
+		background: transparent;
+	}
+
+	.navbar {
+		padding: 3vw 0;
+	}
+
+	footer {
+		background: #212121;
+		color: #fafafa;
+		padding: 30px 0 20vh 30px;
+	}
+
+	section {
+		margin: 20vh auto;
+	}
+
+	.hero {
+		// padding: 0 10vw;
+		// box-sizing: border-box;
+
+		display: flex;
+		margin: 20vh auto;
+		margin-top: 15vh;
+
+		.jumbotron { flex: 5; }
+		.clip-art { flex: 8; }
+		
+		.jumbotron {
+			margin-bottom: 0;
+			zoom: 0.8;
+		}
+		.clip-art {
+			// display: grid;
+			overflow: hidden;
+
+			img {
+				position: relative;
+				left: -200px;
+				height: 100%;
+			}
+		}
+	}
+
+}
+
+
+/* For mobile devices */
+@media only screen and (min-width: $screen-breakpoint) {
+	
+}
+/* For desktop devices */
+@media only screen and (min-width: $screen-breakpoint) {
+	
 }

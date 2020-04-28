@@ -116,18 +116,38 @@ class UserCard extends Component {
 			displayName,
 			bio,
 			fields = ['tag1', 'tag2'],
+			linkedIn,
+			skype,
 			rating = 5,
 		} = user
+
+
+	const linkedInTag = linkedIn ? (
+		<p className="contact-tag">
+			<span className="badge badge-secondary">LinkedIn</span>
+			<a href={linkedIn}>{linkedIn}</a>
+		</p>
+		) : null
+	
+	const skypeTag = skype ? (
+		<p className="contact-tag">
+			<span className="badge badge-secondary">Skype</span>
+			{skype}
+		</p>
+	) : null
+	
 
 		return (
 			<div className="UserCard">
 				<div className="img">
-					<img src="#" alt="Profile picture"/>
+					{/* <img src="#" alt="Profile picture"/> */}
 				</div>
 				<div className="details">
 					<h1>{displayName}</h1>
 					<p>{bio}</p>
 					<Rating rating={rating} />
+					{linkedInTag}
+					{skypeTag}
 					<div>
 						{
 							fields.map((t, i) => {

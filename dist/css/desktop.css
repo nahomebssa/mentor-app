@@ -11,8 +11,14 @@
       margin: 5vh 5vw;
       border-radius: 10px;
       border: 1px solid rgba(238, 238, 238, 0.75); }
-      .App .app-nav ul li a {
-        justify-content: center; }
+      .App .app-nav ul {
+        display: flex;
+        flex-direction: column; }
+        .App .app-nav ul li {
+          min-width: 5vw;
+          min-height: 5vw; }
+          .App .app-nav ul li a {
+            justify-content: center; }
       .App .app-nav .app-nav-label {
         display: none;
         margin: 0; }

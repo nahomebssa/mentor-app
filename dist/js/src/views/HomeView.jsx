@@ -31,7 +31,7 @@ class HomeView extends React.Component {
 						INFO("[onSuccess] user: ", user)
 						const userData = user.data()
 						this.setState({
-							displayUserName: userData.username || "",
+							displayUserName: userData.displayName || "",
 						})
 					}
 				},
@@ -47,11 +47,12 @@ class HomeView extends React.Component {
 	render () {
 		const isSignedOut = (AuthenticationManager._authState == AuthenticationManager.AuthState.SIGNEDOUT)
 		if (isSignedOut) return <Redirect to="/sign-in" />
-		const username = g_databaseManager.userModel.username || ""
+		// const username = g_databaseManager.userModel.username || ""
+		const { displayUserName = undefined } = this.state
 		return (
 			<div className="HomeView">
 				<h1 className="title">Home</h1>
-				<h3>Welcome to Mentor Finder{username ? `, ${username}` : "<no user>"}!</h3>
+				<h3>Welcome to Mentor Finder{displayUserName ? `, ${displayUserName}` : ""}!</h3>
 				<h4>Some things you can do:</h4>
 				<ul>
 					<li>

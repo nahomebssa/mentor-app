@@ -5,7 +5,16 @@
     .App nav {
       background: #000;
       height: 10vh; }
+      .App nav ul {
+        flex: 1; }
+        .App nav ul li {
+          flex: 1; }
+          .App nav ul li a {
+            flex: 1; }
       .App nav .nav-label {
-        opacity: 1; }
+        opacity: 0;
+        display: none; }
     .App .AuthenticationView form {
-      min-width: 60vw; } }
+      min-width: 60vw; }
+    .App .UserCard .contact-tag {
+      max-width: 200px; } }

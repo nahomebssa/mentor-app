@@ -75,20 +75,20 @@ class AuthenticationManager {
 	{
 		if (provider === AuthenticationManager.AuthProvider.EMAIL) {
 			firebase.auth().signInWithEmailAndPassword(email, password)
-			.then(() => { AuthenticationManager._signInSuccess(onSuccess) })
-			.catch(() => { AuthenticationManager._signInFail(onFail) })
+			.then((result) => { AuthenticationManager._signInSuccess(onSuccess, result) })
+			.catch((error) => { AuthenticationManager._signInFail(onFail, error) })
 		}
 
 	}
 
-	static _signInSuccess(next) {
+	static _signInSuccess(next, prev) {
 		AuthenticationManager._makeUserModel()
 		DatabaseManager.loadUserProfile()
-		next()
+		next(prev)
 	}
-	static _signInFail(next) {
+	static _signInFail(next, prev) {
 		// ...
-		next()
+		next(prev)
 	}
 
 	static _makeUserModel(user = null) {
