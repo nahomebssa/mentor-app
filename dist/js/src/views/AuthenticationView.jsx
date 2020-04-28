@@ -1,3 +1,13 @@
+const LIST_OF_MAJORS = [
+	"Computer Science",
+	"Engineering",
+	"Biological and biomedical sciences",
+	"Psychology",
+	"Social sciences and history",
+	"Health professions and related programs",
+	"Business",
+]
+
 class SignInForm extends React.Component {
 	constructor(props) {
 		super(props)
@@ -113,6 +123,7 @@ class SignUpForm extends React.Component {
 			iFullName: "",
 			iEmail: "",
 			iPassword: "",
+			iAreaOfExpertise: "",
 			errorMessage: "",
 			gotSignedUp: false,
 		}
@@ -150,12 +161,14 @@ class SignUpForm extends React.Component {
 		const {
 			iEmail: email,
 			iPassword: password,
-			iFullName: displayName
+			iFullName: displayName,
+			iAreaOfExpertise,
 		} = this.state
 		DBG("state", { email, password })
 		ALERT(`Signing up... (see console)`)
 
-		const userData = { displayName }
+		const _fields = [ iAreaOfExpertise ]
+		const userData = { displayName, fields: _fields }
 
 		/* const authResult =  */
 		AuthenticationManager.signUp({
@@ -203,6 +216,17 @@ class SignUpForm extends React.Component {
 						placeholder="Password"
 						value={this.state.iPassword}
 						onChange={(event) => this.setState({ iPassword: event.target.value })} />
+					<select
+						className="form-control mb-3"
+						defaultValue="Area of Expertise"
+						onChange={ event => { this.setState({ iAreaOfExpertise: event.target.value}) } }>
+						<option value="Area of Expertise">Area of Expertise</option>
+						{LIST_OF_MAJORS.map((m, i) => (
+							<option key={i} value={m}>
+								{m}
+							</option>
+						))}
+					</select>
 					<input
 						className="form-control btn btn-primary"
 						type="button"

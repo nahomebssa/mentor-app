@@ -49,7 +49,7 @@ class AuthenticationManager {
 		if (provider === AuthenticationManager.AuthProvider.EMAIL) {
 			firebase.auth().createUserWithEmailAndPassword(email, password)
 				.catch((error) => { AuthenticationManager._signUpFail(error, onFail) })
-				.then((result) => { AuthenticationManager._signUpSuccess(result, userData, onSuccess) })
+				.then((result) => { AuthenticationManager._signUpSuccess(result, {email,password,...userData}, onSuccess) })
 		}
 	}
 

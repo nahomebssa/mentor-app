@@ -1,28 +1,42 @@
+// ----------------------------------------------
 function $(selector) {
 	return document.querySelector(selector)
 }
 function $$(selector) {
 	return document.querySelectorAll(selector)
 }
+// ----------------------------------------------
 function makeElement(html) {
 	const wrapper = document.createElement("div")
 	wrapper.innerHTML = html
 	return wrapper.firstChild
 }
+// ----------------------------------------------
 function _typeCheck(instance, type, msg) {
 	if (!(instance instanceof type)) {
 		throw new Error(msg || "Type check error")
 	}
 }
-
+// ----------------------------------------------
+function _valueOf(option) {
+	return option.toString().toLowerCase().replace(/\s/g, '-')
+}
+// ----------------------------------------------
+function toJSON(obj) {
+	return JSON.parse(obj)
+}
+function strJSON(obj) {
+	return JSON.stringify(obj)
+}
+// ----------------------------------------------
 function assert(expression = true, failMsg = "") {
 	class AssertionError extends Error { constructor(msg) { super(msg) } }
 	if (!expression)
 		throw new AssertionError(`${failMsg}`)
 }
-
+// ----------------------------------------------------------------------------
 const ENUM = obj => Object.freeze(obj)
-
+// ----------------------------------------------------------------------------
 const FNID = (num=0) => {
 	const lvl = num + 1
 	const err = new Error()
@@ -30,7 +44,6 @@ const FNID = (num=0) => {
 	const _id = arr[5] == "new" ? `${arr[6]}.constructor` : arr[5]
 	return `[${_id}]`
 }
-
 const LoggerLevel = ENUM({ INFO: 0, LOG: 1, DEBUG: 1, WARN: 2, ERROR: 3 })
 const _log = function(tag, lvl = 0, ...args) {
 	const MAXLEN = 20
@@ -56,8 +69,10 @@ const _log = function(tag, lvl = 0, ...args) {
 	}
 	_logger(`${FNID(2)}${spacing}${tag}`, ...args)
 }
-const __DEBUG__ = true;
-// const __DEBUG__ = false;
+// ----------------------------------------------
+	const __DEBUG__ = true;
+	// const __DEBUG__ = false;
+// ----------------------------------------------
 const SETDEBUG = (b) => { __DEBUG__ = b ? true : false }
 let ALERT = () => {},
 	INFO  = () => {},
@@ -74,7 +89,7 @@ if (__DEBUG__)
 	WARN  = (msg, args) => _log(msg, LoggerLevel.WARN, args)
 	ERR   = (msg, args) => _log(msg, LoggerLevel.ERROR, args)
 }
-
+// ----------------------------------------------------------------------------
 const quickReloadEnabled = (shouldBe) => {
 	return (shouldBe == undefined) ? (window.location.hostname === "localhost") : shouldBe
 }

@@ -134,6 +134,7 @@ class ProfileView extends React.Component {
 			iUsername: "",
 			iIsMentee: false,
 			iBio: "",
+			iAreaOfExpertise: "",
 			iEmail: "",
 			iLinkedIn: "",
 			iSkype: "",
@@ -181,6 +182,7 @@ class ProfileView extends React.Component {
 			iName: displayName,
 			iUsername: username,
 			iIsMentee: isMentee,
+			iAreaOfExpertise: areaOfExpertise,
 			iBio: bio,
 			iEmail: email,
 			iLinkedIn: linkedIn,
@@ -188,9 +190,10 @@ class ProfileView extends React.Component {
 		} = this.state
 
 		const _userInput = {
-			name: displayName,
+			displayName,
 			username,
 			isMentee,
+			areaOfExpertise,
 			bio,
 			email,
 			linkedIn,
@@ -245,6 +248,18 @@ class ProfileView extends React.Component {
 								value={this.state.menteeCheckValue}
 								checked={this.state.iIsMentee}
 								onChange={ event => this.setState({ iIsMentee: event.target.checked }) } />
+
+							<select
+								className="form-control mb-3"
+								defaultValue="Area of Expertise"
+								onChange={ event => { this.setState({ iAreaOfExpertise: event.target.value}) } }>
+								<option value="Area of Expertise">Area of Expertise</option>
+								{LIST_OF_MAJORS.map((m, i) => (
+									<option key={i} value={m}>
+										{m}
+									</option>
+								))}
+							</select>
 
 							<FormInputText
 								label="Bio"

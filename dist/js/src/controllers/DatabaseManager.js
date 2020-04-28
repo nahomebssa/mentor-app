@@ -66,6 +66,10 @@ class DatabaseManager {
 	}
 
 	static createUserRecord(uid, newRecord) {
+		ALERT(`newRecord: ${JSON.stringify(newRecord)}`)
+		if (newRecord.username == "" || newRecord.username == undefined) {
+			newRecord.username = newRecord.email.substring(0, newRecord.email.indexOf('@'))
+		}
 		DatabaseManager.setUserModelData(newRecord)
 		DatabaseManager.getUserRef(uid).set(DatabaseManager.getUserModelData())
 			.then(user => {
@@ -86,7 +90,7 @@ class DatabaseManager {
 			...g_databaseManager.userModel.data
 		})
 			.then(user => {
-				DBG("[updateUserRecorde] userModel: ", g_databaseManager.userModel)
+				DBG("[updateUserRecord] userModel: ", g_databaseManager.userModel)
 				ALERT("User records got updated... (see console)")
 			})
 			.catch(err => {
