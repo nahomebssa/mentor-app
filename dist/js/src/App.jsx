@@ -87,7 +87,7 @@ class App extends React.Component {
 							<Route path="/sign-in">
 								<AuthenticationView
 									authMode="AuthMode.SIGNIN"
-									successPath={"/profile"} />
+									successPath={"/home"} />
 							</Route>
 							<Route path="/sign-up">
 								<AuthenticationView
@@ -96,6 +96,9 @@ class App extends React.Component {
 							<Route path="/sign-out">
 								<AuthenticationView
 									authMode="AuthMode.SIGNOUT" />
+							</Route>
+							<Route path="/home">
+								<HomeView />
 							</Route>
 							<Route path="/">
 								<HomeView />

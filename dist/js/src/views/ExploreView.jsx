@@ -34,6 +34,7 @@ function DB_INIT() {
 	// LOG("DB", DB)
 }
 
+
 class SearchBox extends React.Component {
 	constructor(props) {
 		super(props)
@@ -42,10 +43,14 @@ class SearchBox extends React.Component {
 		}
 	}
 	
-
 	onChange = (event) => {
 		this.setState({ text: event.target.value });
 		this.props.onTextChange(event.target.value);
+	}
+
+	btnSearchClickHandler(event) {
+		ALERT("clicked search")
+		this.props.onSearch(this.state.text)
 	}
 
 	render() {
@@ -56,11 +61,10 @@ class SearchBox extends React.Component {
 					type="text"
 					value={this.state.text}
 					onChange={this.onChange.bind(this)} />
-				<span className="test-output">{this.state.text}</span>
-				<input className="material-icons"
+				<input className="btn btn-primary material-icons"
 					type="submit"
 					value="search"
-					onClick={() => { SearchManager.userExist({ name: this.state.searchText }); }} />
+					onClick={this.btnSearchClickHandler.bind(this)} />
 			</div>
 		)
 	}
@@ -96,18 +100,23 @@ class UserCard extends Component {
 			user: this.props.user || {}
 		}
 	}
-	render()
-	{
+	render() {
 
 		const {
 			user
 		} = this.state
 
+		// const {
+		// 	name: displayName,
+		// 	bio,
+		// 	areaOfExpertise: tags = ['tag1', 'tag2'],
+		// 	rating,
+		// } = user
 		const {
-			name: displayName,
+			displayName,
 			bio,
-			areaOfExpertise: tags = ['tag1', 'tag2'],
-			rating,
+			fields = ['tag1', 'tag2'],
+			rating = 5,
 		} = user
 
 		return (
@@ -121,7 +130,7 @@ class UserCard extends Component {
 					<Rating rating={rating} />
 					<div>
 						{
-							tags.map((t, i) => {
+							fields.map((t, i) => {
 								return (
 									<span className="badge badge-secondary" key={i}>
 										{t}
@@ -143,8 +152,9 @@ class SearchResults extends React.Component {
 			results: this.props.results || []
 		}
 	}
-	render()
-	{
+	render() {
+		DBG("rendering search results: ", this.state)
+		// ALERT("rendering search results")
 		return (
 			<div className="SearchResults">
 				{
@@ -170,22 +180,58 @@ class ExploreView extends React.Component {
 		this.state = {
 			searchText: "",
 			searchResults: _users || [],
+			searchResults: [],
+			users: [],
 		}
 		
 	}
+	
+	componentDidMount() {
+		DatabaseManager.loadUsers({
+			onSuccess: (user) => {
+				DBG("got user: ", user)
+				this.setState({ users: [ ...this.state.users, user ], searchResults: [ ...this.state.users, user ] })
+			},
+			onError: (err) => { ERR("[EVmount] cant load users, err: ", err) },
+		})
+	}
+
+	onSearchHandler(res) {
+		DBG("res: ", res)
+		ALERT("EV: ok, searching...")
+		// SearchManager.searchByField({
+		// 	field: this.state.searchText,
+		// 	onSuccess: (res) => {
+		// 		DBG("filtered result: ", user)
+		// 		ALERT("Found the filtered result (see console)")
+		// 		if (!res.empty) {
+		// 			this.setState({ searchResults: res.docs.map( doc => doc.exists ? null : null ) })
+		// 		}
+		// 	},
+		// 	onError: (err) => { ERR("[onSearchHandler] err: ", err) },
+		// });
+		this.setState({
+			searchResults: this.state.users.map( (user, i) => (user.fields[0].startsWith(this.state.searchText)) )
+		})
+	}
 
 	render () {
+		DBG("rendering search results: ", this.state)
 		return (
 			<div className="ExploreView">
 				{/* <h1 className="title">Explore</h1> */}
 				<SearchBox
-					onTextChange={(text) => this.setState({ searchText: text })} />
-				<SearchResults
-					results={this.state.searchResults} />
+					onTextChange={ text => this.setState({ searchText: text })}
+					onSearch={ this.onSearchHandler.bind(this) } />
+				{/* <SearchResults
+					results={this.state.searchResults} /> */}
+				<div className="SearchResults">
+					{ this.state.searchResults.map( (user, i) => <UserCard key={i} user={user} />) }
+				</div>
 				
 			</div>
 		)
 	}
 }
 
-DB_INIT()
+// DB_INIT()

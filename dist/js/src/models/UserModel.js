@@ -7,13 +7,14 @@ class UserModel extends Model {
 		profilePicture = null,
 		isMentee = false,
 		fields = [],
+		bio = null,
 		email = null,
 		linkedIn = null,
 		skype = null,
 	}) {
 		super()
 		this.data = {
-			uid, username, displayName, profilePicture, isMentee, fields, email, linkedIn, skype
+			uid, username, displayName, profilePicture, isMentee, fields, bio, email, linkedIn, skype
 		}
 	}
 	get uid() { return this.data.uid }
@@ -22,6 +23,7 @@ class UserModel extends Model {
 	get profilePicture() { return this.data.profilePicture }
 	get isMentee() { return this.data.isMentee }
 	get fields() { return this.data.fields }
+	get bio() { return this.data.bio }
 	get email() { return this.data.email }
 	get linkedIn() { return this.data.linkedIn }
 	get skype() { return this.data.skype }

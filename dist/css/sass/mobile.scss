@@ -10,6 +10,9 @@ $screen-breakpoint: 500px;
 		nav {
 			background: #000;
 			height: 10vh;
+			ul {
+				flex: 1;
+			}
 			.nav-label {
 				opacity: 1;
 			}

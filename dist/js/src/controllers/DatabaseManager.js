@@ -107,6 +107,82 @@ class DatabaseManager {
 		ALERT(`Failed to update profile. Check the console for details`)
 	}
 
+
+	static loadUserProfile() {
+		ALERT("LOADING USER PROFILE...")
+		const uid = AuthenticationManager.currentUser.uid
+		DBG(uid)
+		DatabaseManager.getUserRecord(
+			uid,
+			{
+				onSuccess: (user) => {
+					if (user.exists) {
+						INFO("[onSuccess] user: ", user)
+						const userData = user.data()
+						g_databaseManager.userModel.setData({
+							uid: userData.uid || null,
+							username: userData.username || null,
+							displayName: userData.displayName || null,
+							profilePicture: userData.profilePicture || null,
+							isMentee: userData.isMentee || null,
+							fields: userData.fields || null,
+							bio: userData.bio || null,
+							email: userData.email || null,
+							linkedIn: userData.linkedIn || null,
+							skype: userData.skype || null,
+						})
+					}
+				},
+				onError: (err) => ERR("[loadProfile -> DatabaseManager.getUserRecord] err: ", err)
+			}
+		)
+	}
+
+	static loadUsers({
+		onSuccess = () => {},
+		onError = () => {},
+	}) {
+
+		firebase.firestore().collection("users").where("uid", "==", -5005)
+			.get()
+			.then(function(querySnapshot) {
+				querySnapshot.forEach(function(doc) {
+					// doc.data() is never undefined for query doc snapshots
+					// console.log("entry: ", doc.id, " => ", doc.data());
+					onSuccess(doc.data())
+				});
+			})
+			.catch(function(error) {
+				console.log("Error getting documents: ", error);
+			});
+
+	}
+
+	/**
+	 * Search functions....
+	 */
+	
+	static search({
+		lhs,
+		op,
+		rhs,
+		onSuccess,
+		onError,
+	}) {
+		db.collection("users").where(lhs, op, rhs)
+			.get()
+			.then(function(querySnapshot) {
+				querySnapshot.forEach(function(doc) {
+					// doc.data() is never undefined for query doc snapshots
+					console.log(doc.id, " => ", doc.data());
+				});
+			})
+			.catch(function(error) {
+				console.log("Error getting documents: ", error);
+			});
+	}
+
+
 	static _initialize() { /* ... */ }
 
 }

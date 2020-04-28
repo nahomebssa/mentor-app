@@ -208,6 +208,21 @@ body { display: flex; }
 }
 
 /**
+* HomeView
+*/
+.HomeView {
+	ul {
+		list-style-type: disc;
+		margin-top: 20px;
+		li {
+			display: flex;
+			align-items: center;
+			padding: 20px;
+		}
+	}
+}
+
+/**
 * ExploreView
 */
 .ExploreView {
@@ -216,6 +231,8 @@ body { display: flex; }
 	.SearchBox {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
 		input[type="textbox"] {
 			margin: 10px;
 			flex: 1;

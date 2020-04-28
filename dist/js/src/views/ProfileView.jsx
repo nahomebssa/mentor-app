@@ -191,9 +191,25 @@ class ProfileView extends React.Component {
 							iSkype: userData.skype || "",
 						})
 					}
-				}
+				},
+				onError: (err) => ERR("[loadProfile -> DatabaseManager.getUserRecord] err: ", err)
 			}
 		)
+
+		const userData = g_databaseManager.userModel.data
+		this.setState({
+			...this.state,
+			// ProfileForm
+			iName: userData.displayName || "",
+			iUsername: userData.username || "",
+			iIsMentee: userData.isMentee || false,
+			iAreaOfExpertise: userData.fields[0] || "",
+			iBio: userData.bio || "",
+			iEmail: userData.email || "",
+			iLinkedIn: userData.linkedIn || "",
+			iSkype: userData.skype || "",
+		})
+
 	}
 
 	componentDidMount() {

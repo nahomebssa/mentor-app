@@ -40,4 +40,16 @@ class SearchManager {
 	  });
 	}
 
+	static searchByField({
+		field = undefined,
+		onSuccess = () => {},
+		onError = () => {},
+	 }) {
+		if (field == undefined) throw new Error("[searchByField] Field is undefined")
+		firebase.firestore().collection("users").where("fields", "array-contains", field)
+			.get()
+			.catch(onError)
+			.then(onSuccess)
+	}
+
 }

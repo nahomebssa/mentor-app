@@ -18,8 +18,8 @@ class SignInForm extends React.Component {
 			password: "",
 			errorMessage: "",
 			gotSignedIn: false,
+			redirectUrl: this.props.successPath || "/profile",
 		}
-		this.REDIRECT_URL = "/profile"
 		this.onSignInFail = this.onSignInFail.bind(this)
 		this.onSignInSuccess = this.onSignInSuccess.bind(this)
 		this.handleSignIn = this.handleSignIn.bind(this)
@@ -70,11 +70,12 @@ class SignInForm extends React.Component {
 		const {
 			errorMessage,
 			gotSignedIn,
+			redirectUrl,
 		} = this.state
 
 		if (gotSignedIn === true)
 		{
-			return <Redirect to={this.REDIRECT_URL} />
+			return <Redirect to={redirectUrl} />
 		}
 		
 		const FNID = `[SignInForm#render]`
@@ -252,10 +253,12 @@ class AuthenticationView extends React.Component {
 		let signedOut = false;
 		switch (this.props.authMode) {
 			case "AuthMode.SIGNIN":
-				authForm = <SignInForm />
+				authForm = <SignInForm
+								successPath={this.props.successPath} />
 				break;
 			case "AuthMode.SIGNUP":
-				authForm = <SignUpForm />
+				authForm = <SignUpForm
+								successPath={this.props.successPath} />
 				break;
 			case "AuthMode.SIGNOUT":
 				authForm = <SignOutForm />

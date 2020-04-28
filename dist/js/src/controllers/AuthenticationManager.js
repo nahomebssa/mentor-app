@@ -83,6 +83,7 @@ class AuthenticationManager {
 
 	static _signInSuccess(next) {
 		AuthenticationManager._makeUserModel()
+		DatabaseManager.loadUserProfile()
 		next()
 	}
 	static _signInFail(next) {
