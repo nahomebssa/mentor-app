@@ -1,11 +1,9 @@
 {
-  "private": true,
   "name": "mentor-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-	"start-sass": "node-sass -w ./dist/css/sass -o ./dist/css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
