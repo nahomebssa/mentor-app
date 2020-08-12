@@ -11,10 +11,10 @@ class SignInForm extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			// email: "user1@gmail.com",
-			// password: "user001",
-			email: "",
-			password: "",
+			email: "user1@gmail.com",
+			password: "user001",
+			// email: "",
+			// password: "",
 			errorMessage: "",
 			gotSignedIn: false,
 		}

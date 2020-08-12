@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
-import {
-	BrowserRouter,
-	Switch,
-	Route,
-	Link,
-} from 'react-router-dom'
-import {
-	AuthenticationManager
-} from '../../controllers'
-import {
-	ExploreView,
-	InboxView,
-	ProfileView,
-	AuthenticationView,
-	HomeView,
-} from "../../views";
-import { ALERT } from "../../utils";
+import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom'
+import { AuthenticationManager } from '../controllers'
+import { ExploreView, InboxView, ProfileView, AuthenticationView, HomeView } from "../views";
+import { ALERT } from "../utils";
+
+
+function PrivateRoute({ children, ...rest }) {
+	const isAuthenticated = false // ...
+	return (
+		<Route
+			{...rest}
+			render={({ location }) =>
+				isAuthenticated ? (
+					children
+				) : (
+						<Redirect
+							to={{
+								pathname: "/login",
+								state: { from: location }
+							}}
+						/>
+					)
+			}
+		/>
+	);
+}
+function Icon(props) {
+	return (
+		<i className="material-icons">{props.name}</i>
+	)
+}
 
 const AuthContext = React.createContext({})
 class App extends Component {
@@ -28,7 +42,7 @@ class App extends Component {
 	}
 	render() {
 		// const isSignedOut = (AuthenticationManager._authState === AuthenticationManager.AuthState.SIGNEDOUT)
-		ALERT(AuthenticationManager._authState)	
+		ALERT(AuthenticationManager._authState)
 		return (
 			<AuthContext.Provider>
 				<BrowserRouter>
@@ -85,37 +99,26 @@ function Main(props) {
 }
 
 function Nav(props) {
+	const navItems = [
+		{ href: '/',		 	icon: <Icon name="home" /> },
+		{ href: '/explore', 	icon: <Icon name="whatshot" /> },
+		{ href: '/inbox', 		icon: <Icon name="inbox" /> },
+		{ href: '/person', 		icon: <Icon name="profile" /> },
+	]
 	return (
 		<nav className="AppTabs">
 			<ul>
-				<li>
-					<Link to="/">
-						<Icon name="home" />
-					</Link>
-				</li>
-				<li>
-					<Link to="/explore">
-						<Icon name="whatshot" />
-					</Link>
-				</li>
-				<li>
-					<Link to="/inbox">
-						<Icon name="inbox" />
-					</Link>
-				</li>
-				<li>
-					<Link to="/profile">
-						<Icon name="person" />
-					</Link>
-				</li>
+				{navItems.map((n, i) => {
+					return (
+						<li key={i}>
+							<Link to={n.href}>
+								{n.icon}
+							</Link>
+						</li>
+					)
+				})}
 			</ul>
 		</nav>
-	)
-}
-
-function Icon(props) {
-	return (
-		<i className="material-icons">{props.name}</i>
 	)
 }
 
