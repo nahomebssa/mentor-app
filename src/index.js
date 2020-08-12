@@ -4,7 +4,7 @@ import './styles/index.css';
 import './styles/index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import App from './components/App.js';
+import { App } from './components/App.js';
 import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase'
 

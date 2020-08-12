@@ -1,12 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom'
 import { AuthenticationManager } from '../controllers'
 import { ExploreView, InboxView, ProfileView, AuthenticationView, HomeView } from "../views";
-import { ALERT } from "../utils";
+import { AuthProvider, useAuth } from './AuthContext.js'
+import { createContext } from 'react';
 
+
+const AppContext = createContext()
+export const AppProvider = ({...rest}) => {
+	const providerValue = {
+		APP_NAME: "mentor-app",
+		APP_DISPLAY_NAME: "Mentor App"
+	}
+	return (
+		<AppContext.Provider value={providerValue} {...rest} />
+	)
+}
+export const useApp = () => useContext(AppContext)
 
 function PrivateRoute({ children, ...rest }) {
-	const isAuthenticated = false // ...
+	const { authState } = useAuth()
+	const isAuthenticated = authState === 'signed-in' // ...
+	const REDIRECT_PATHNAME = '/sign-in'
 	return (
 		<Route
 			{...rest}
@@ -16,7 +31,7 @@ function PrivateRoute({ children, ...rest }) {
 				) : (
 						<Redirect
 							to={{
-								pathname: "/login",
+								pathname: REDIRECT_PATHNAME,
 								state: { from: location }
 							}}
 						/>
@@ -25,80 +40,9 @@ function PrivateRoute({ children, ...rest }) {
 		/>
 	);
 }
-function Icon(props) {
-	return (
-		<i className="material-icons">{props.name}</i>
-	)
-}
+const Icon = ({ name }) => <i className="material-icons">{name}</i>
 
-const AuthContext = React.createContext({})
-class App extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			isSignedOut: true,
-			authState: null,
-		}
-	}
-	render() {
-		// const isSignedOut = (AuthenticationManager._authState === AuthenticationManager.AuthState.SIGNEDOUT)
-		ALERT(AuthenticationManager._authState)
-		return (
-			<AuthContext.Provider>
-				<BrowserRouter>
-					<Header />
-					<Nav />
-					<Main />
-				</BrowserRouter>
-			</AuthContext.Provider>
-		)
-	}
-}
-
-function Header(props) {
-	return (
-		<header>
-			<h1>Mentor Finder</h1>
-		</header>
-	)
-}
-
-function Main(props) {
-	return (
-		<main>
-			<Switch>
-				<Route path="/explore">
-					<ExploreView />
-				</Route>
-				<Route path="/inbox">
-					<InboxView />
-				</Route>
-				<Route path="/profile">
-					<ProfileView />
-				</Route>
-				<Route path="/sign-in">
-					<AuthenticationView
-						authMode="AuthMode.SIGNIN"
-						successPath={"/profile"} />
-				</Route>
-				<Route path="/sign-up">
-					<AuthenticationView
-						authMode="AuthMode.SIGNUP" />
-				</Route>
-				<Route path="/sign-out">
-					<AuthenticationView
-						authMode="AuthMode.SIGNOUT" />
-				</Route>
-				<Route path="/">
-					<HomeView />
-					{/* {isSignedOut ? <Redirect to="/sign-in" /> : <HomeView />} */}
-				</Route>
-			</Switch>
-		</main>
-	)
-}
-
-function Nav(props) {
+const Nav = () => {
 	const navItems = [
 		{ href: '/',		 	icon: <Icon name="home" /> },
 		{ href: '/explore', 	icon: <Icon name="whatshot" /> },
@@ -121,5 +65,68 @@ function Nav(props) {
 		</nav>
 	)
 }
-
-export default App;
+const AppLayout = (props) => {
+	return (
+		<>
+			<header>
+				<h1>Mentor Finder</h1>
+			</header>
+			<Nav />
+			<main>
+				Main
+			</main>
+		</>
+	)
+}
+const AppRouter = ({children}) => {
+	return (
+		<BrowserRouter>
+			{children}
+			<Switch>
+				<PrivateRoute path="/explore">
+					<ExploreView />
+				</PrivateRoute>
+				<PrivateRoute path="/inbox">
+					<InboxView />
+				</PrivateRoute>
+				<PrivateRoute path="/profile">
+					<ProfileView />
+				</PrivateRoute>
+				<Route path="/sign-in">
+					<AuthenticationView
+						authMode="AuthMode.SIGNIN"
+						successPath={"/profile"} />
+				</Route>
+				<Route path="/sign-up">
+					<AuthenticationView
+						authMode="AuthMode.SIGNUP" />
+				</Route>
+				<Route path="/sign-out">
+					<AuthenticationView
+						authMode="AuthMode.SIGNOUT" />
+				</Route>
+				<PrivateRoute path="/">
+					<HomeView />
+				</PrivateRoute>
+			</Switch>
+		</BrowserRouter>
+	)
+}
+export class App extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			isSignedOut: true,
+			authState: null,
+		}
+	}
+	render() {
+		return (
+			<AuthProvider>
+				<AppRouter>
+					<AppLayout />
+				</AppRouter>
+			</AuthProvider>
+		)
+	}
+}

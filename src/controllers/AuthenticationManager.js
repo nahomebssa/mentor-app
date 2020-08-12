@@ -49,7 +49,7 @@ class AuthenticationManager {
 	})
 	{
 		DBG("HERE", onSuccess)
-		console.log("HERE: checking firebase for react", firebase)
+		// console.log("HERE: checking firebase for react", firebase)
 		firebase.auth().signInWithEmailAndPassword(email, password)
 			.then(onSuccess)
 			.catch(onFail)
