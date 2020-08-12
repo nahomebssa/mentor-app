@@ -1,13 +1,11 @@
-import React, { Component, useContext } from 'react';
+import React, { useContext, createContext } from 'react';
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom'
-import { AuthenticationManager } from '../controllers'
+import { AuthenticationManager } from '../controllers/AuthenticationManager.js'
 import { ExploreView, InboxView, ProfileView, AuthenticationView, HomeView } from "../views";
 import { AuthProvider, useAuth } from './AuthContext.js'
-import { createContext } from 'react';
-
 
 const AppContext = createContext()
-export const AppProvider = ({...rest}) => {
+export const AppProvider = ({ ...rest }) => {
 	const providerValue = {
 		APP_NAME: "mentor-app",
 		APP_DISPLAY_NAME: "Mentor App"
@@ -44,10 +42,10 @@ const Icon = ({ name }) => <i className="material-icons">{name}</i>
 
 const Nav = () => {
 	const navItems = [
-		{ href: '/',		 	icon: <Icon name="home" /> },
-		{ href: '/explore', 	icon: <Icon name="whatshot" /> },
-		{ href: '/inbox', 		icon: <Icon name="inbox" /> },
-		{ href: '/person', 		icon: <Icon name="profile" /> },
+		{ href: '/', icon: <Icon name="home" /> },
+		{ href: '/explore', icon: <Icon name="whatshot" /> },
+		{ href: '/inbox', icon: <Icon name="inbox" /> },
+		{ href: '/person', icon: <Icon name="profile" /> },
 	]
 	return (
 		<nav className="AppTabs">
@@ -78,7 +76,7 @@ const AppLayout = (props) => {
 		</>
 	)
 }
-const AppRouter = ({children}) => {
+const AppRouter = ({ children }) => {
 	return (
 		<BrowserRouter>
 			{children}
@@ -112,21 +110,14 @@ const AppRouter = ({children}) => {
 		</BrowserRouter>
 	)
 }
-export class App extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			isSignedOut: true,
-			authState: null,
-		}
-	}
-	render() {
-		return (
+export function App() {
+	return (
+		<AppProvider>
 			<AuthProvider>
 				<AppRouter>
 					<AppLayout />
 				</AppRouter>
 			</AuthProvider>
-		)
-	}
+		</AppProvider>
+	)
 }
