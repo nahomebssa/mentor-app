@@ -4,8 +4,6 @@ import { AuthenticationManager } from "../controllers";
 
 class HomeView extends Component {
 	render () {
-		const isSignedOut = (AuthenticationManager._authState === AuthenticationManager.AuthState.SIGNEDOUT)
-		if (isSignedOut) return <Redirect to="/sign-in" />
 		return (
 			<div className="HomeView">
 				<h1 className="title">Home</h1>

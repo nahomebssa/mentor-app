@@ -1,11 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './styles/index.css';
-import './styles/index.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './reset.css'
+// import './styles/index.css'
+// import './styles/index.scss'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-import { App } from './components/App.js';
-import * as serviceWorker from './serviceWorker';
+import { App } from './components/App.js'
+import * as serviceWorker from './serviceWorker'
 import * as firebase from 'firebase'
 
 const firebaseConfig = {
