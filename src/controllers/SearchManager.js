@@ -1,4 +1,7 @@
 import firebase from 'firebase'
+import {ERR, DBG} from '../utils'
+
+const FSC_USERS = "users"
 
 export class SearchManager {
 
@@ -17,7 +20,17 @@ export class SearchManager {
      * @param {SearchManager.SortType} sortBy
      * @returns {SearchManager.Result} ...
      */
-    searchFor({ query, sortBy }) { }
+    static searchFor({ query, sortBy, callback }) {
+
+        const collectionFilter = ['', '', '']
+        const db = firebase.firestore()
+        db.collection('users').where(...collectionFilter).get().catch(console.error).then(snap => {
+            snap.forEach(s => users.push(s))
+            console.log('users', users)
+        })
+
+
+    }
 
     static userExist({ name }) {
         var db = firebase.firestore();

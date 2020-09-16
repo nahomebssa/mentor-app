@@ -1,85 +1,29 @@
 import React, { useState } from 'react'
 import { SearchManager } from '../controllers/SearchManager'
 import { Badge, Card } from 'react-bootstrap'
+import { fakedb as DB, range } from '../utils'
 
-const DB = {
-    users: []
+function SearchBox({ onTextChange }) {
+    const [value, setValue] = useState("")
+    const onChange = (event) => {
+        setValue(event.target.value)
+        onTextChange(event.target.value);
+    }
+    return (
+        <div className="SearchBox flex fww fdc">
+            <input type="text" value={value} onChange={onChange} autoFocus />
+            <span style={{fontFamily:'monospace'}}>{value}</span>
+        </div>
+    )
 }
 
-const FIELDS = [
-    "IT & Computer Science",
-    "Biology",
-    "Physics",
-    "Accounting",
-    "Health & Medicine",
-    "Educator"
-]
-
-
-for (let i = 1; i < 20; i++) {
-    DB.users.push({
-        username: `@user${i}`,
-        name: `User ${i}`,
-        email: `user${i}`,
-        bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi corporis quam, unde voluptate labore repellendus nisi facilis veniam. Laboriosam nulla fuga officia quidem sint qui odio amet pariatur quod corporis.",
-        areaOfExpertise: (() => {
-            let maxLen = Math.floor(Math.random() * 3)
-            const index = () => Math.floor(Math.random() * FIELDS.length)
-            const arr = []
-            while (maxLen-- > 0) {
-                arr.push(FIELDS[index()])
-            }
-            return arr;
-        })(),
-        rating: Math.floor(Math.random() * 5),
-    })
-}
-console.log("DB", DB)
-
-function SearchBox() {
-    constructor(props) {
-        super(props)
-        this.state = {
-            text: ""
-        }
-    }
-
-
-    onChange = (event) => {
-        this.setState({ text: event.target.value });
-        this.props.onTextChange(event.target.value);
-    }
-
-    render() {
-        return (
-            <div className="SearchBox flex fww fdc">
-                <input
-                    autoFocus
-                    type="text"
-                    value={this.state.text}
-                    onChange={this.onChange.bind(this)} />
-                <span style={{fontFamily:'monospace'}}>{this.state.text}</span>
-            </div>
-        )
-    }
-}
-
-const Rating = (props) => {
-
+const Rating = ({ value, iconName }) => {
     const MAX_RATING = 5
-
-    const {
-        rating = 0,
-        iconName = 'star'
-    } = props
-
-    // (rating % MAX_RATING)
-
     return (
         <div className="Rating flex">
             {
-                [0, 1, 2, 3, 4].map((x, i) => {
-                    return <i key={i} className={`material-icons ${(i < rating) ? "--filled" : "--empty"}`}>{iconName}</i>
+                range(MAX_RATING).map((x, i) => {
+                    return <i key={i} className={`material-icons ${(i < value) ? "--filled" : "--empty"}`}>{iconName}</i>
                 })
             }
         </div>
@@ -94,7 +38,7 @@ function UserCard({user}) {
             <Card.Body>
                 <Card.Title as={({...rest}) => <h3 {...rest} />}>{displayName}</Card.Title>
                 <Card.Text>{bio}</Card.Text>
-                <Rating rating={rating} />
+                <Rating value={rating} />
                 {
                     tags.map((t, i) => {
                         return (
@@ -119,24 +63,20 @@ function SearchResults({ results }) {
 }
 
 export function ExploreView() {
-
-    const _users = DB.users
-    this.state = {
-        searchText: "",
-        searchResults: _users || [],
-    }
     const [searchText, setSearchText] = useState("")
-    const [searchResults, setSearchResults] = useState("")
-
+    const [searchResults, setSearchResults] = useState(DB.users || [])
+    const handleClick = () => {
+        // SearchManager.userExist({ name: searchText })
+        SearchManager.searchFor({ query: searchText })
+        console.log()
+    }
     return (
         <div className="ExploreView flex fdc">
-            {/* <h1 className="title">Explore</h1> */}
             <SearchBox onTextChange={(text) => setSearchText(text)} />
-            <button onClick={() => { SearchManager.userExist({ name: searchText }); }}>
+            <button onClick={handleClick}>
                 send data
             </button>
             <SearchResults results={searchResults} />
-
         </div>
     )
 }
