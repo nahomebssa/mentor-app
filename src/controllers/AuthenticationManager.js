@@ -1,9 +1,27 @@
-import { FirebaseManager } from '.'
-import { DBG, ALERT, ERR, ENUM } from "../utils";
-// import * as firebase from 'firebase'
-import * as firebase from 'firebase'
+import firebase from 'firebase'
+import { FirebaseManager } from './FirebaseManager'
+import { ALERT, ERR, ENUM, DBG } from '../utils'
 
 class AuthenticationManager {
+
+    static AuthState = ENUM({
+        SIGNEDIN: "AuthState.SIGNEDIN",
+        SIGNEDOUT: "AuthState.SIGNEDOUT",
+        GUESTMODE: "AuthState.GUESTMODE",
+    })
+    static AuthProvider = ENUM({
+        EMAIL: "AuthProvider.EMAIL",
+        GOOGLE: "AuthProvider.GOOGLE",
+    })
+    static AuthResult = class {
+        // constructor({ status, message }) {
+        constructor({ result, error }) {
+            this.result = result;
+            this.error = error;
+        }
+    }
+
+    static _authState = AuthenticationManager.AuthState.SIGNEDOUT;
 
 	static _checkEmailAndPassword(email, password)
 	{
@@ -19,26 +37,6 @@ class AuthenticationManager {
 	{
 		AuthenticationManager._authState = AuthenticationManager.AuthState.SIGNEDIN
 	}
-
-	static _initialize() {
-		AuthenticationManager.AuthState = ENUM({
-			SIGNEDIN: "AuthState.SIGNEDIN",
-			SIGNEDOUT: "AuthState.SIGNEDOUT",
-			GUESTMODE: "AuthState.GUESTMODE",
-		})
-		AuthenticationManager.AuthProvider = ENUM({
-			EMAIL: "AuthProvider.EMAIL",
-			GOOGLE: "AuthProvider.GOOGLE",
-		})
-		AuthenticationManager.AuthResult = class {
-			// constructor({ status, message }) {
-			constructor({ result, error }) {
-				this.result = result;
-				this.error = error;
-			}
-		}
-		AuthenticationManager._authState = AuthenticationManager.AuthState.SIGNEDOUT;
-	}
 	
 	static signIn({
 		provider = "",
@@ -49,14 +47,11 @@ class AuthenticationManager {
 	})
 	{
 		DBG("HERE", onSuccess)
-		// console.log("HERE: checking firebase for react", firebase)
 		firebase.auth().signInWithEmailAndPassword(email, password)
 			.then(onSuccess)
 			.catch(onFail)
 
-		const forceComplete = true
-		if (forceComplete) return;
-		
+		return;
 		let authRes;
 		switch (provider) {
 			case AuthenticationManager.AuthProvider.EMAIL:
@@ -82,23 +77,6 @@ class AuthenticationManager {
 		return authRes;
 	}
 }
-AuthenticationManager.AuthState = {
-	SIGNEDIN: "AuthState.SIGNEDIN",
-	SIGNEDOUT: "AuthState.SIGNEDOUT",
-	GUESTMODE: "AuthState.GUESTMODE",
-}
-AuthenticationManager.AuthProvider = {
-	EMAIL: "AuthProvider.EMAIL",
-	GOOGLE: "AuthProvider.GOOGLE",
-}
-AuthenticationManager.AuthResult = class {
-	// constructor({ status, message }) {
-	constructor({ result, error }) {
-		this.result = result;
-		this.error = error;
-	}
-}
-AuthenticationManager._authState = AuthenticationManager.AuthState.SIGNEDOUT;
-AuthenticationManager._initialize();
 
-export { AuthenticationManager };
+
+export {AuthenticationManager};

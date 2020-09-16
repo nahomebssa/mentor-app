@@ -1,19 +1,15 @@
-class InboxManager {
+export class InboxManager {
 	
-	// Message({ /* ... */ }) {}
+	Message({ /* ... */ }) {}
 	
 	/**
 	 * Class variables
 	 * messages: []
 	 */
-	// constructor({ /* ... */ }) {}
+	constructor({ /* ... */ }) {}
 	
-	// message({/* ... */}) {}
-	// sendMessage({/* .... */}) {}
-	// loadMessages({/* ... */}) {}
+	message({/* ... */}) {}
+	sendMessage({/* .... */}) {}
+	loadMessages({/* ... */}) {}
 
-}
-
-export {
-	InboxManager
 }

@@ -1,51 +1,40 @@
+import firebase from 'firebase'
 
-// import * as firebase from 'firebase'
-import firebase from 'firebase/app'
+export class SearchManager {
 
-class SearchManager {
-	
-	// Query({ /* ... */ })
-	// Result({ /* ... */ })
+    static SearchQuery = class { }
+    static SearchResult = class { }
 
-	_init() {
-		SearchManager.SearchQuery = class {}
-		SearchManager.SearchResult = class {}
-	}
+    /**
+     * Class variables
+     * _results: []
+     */
+    constructor({ /* ... */ }) { }
 
-	/**
-	 * Class variables
-	 * _results: []
-	 */
-	// constructor({ /* ... */ }) {}
+    /**
+     * 
+     * @param {SearchManager.Query} query
+     * @param {SearchManager.SortType} sortBy
+     * @returns {SearchManager.Result} ...
+     */
+    searchFor({ query, sortBy }) { }
 
-	/**
-	 * 
-	 * @param {SearchManager.Query} query
-	 * @param {SearchManager.SortType} sortBy
-	 * @returns {SearchManager.Result} ...
-	 */
-	searchFor({ query, sortBy }) {}
+    static userExist({ name }) {
+        var db = firebase.firestore();
+        let update = db.collection('users').doc('Dunton James').get()
+            .then(doc => {
+                if (!doc.exists) {
+                    alert('No such document!');
+                    // response.send('No such document!');  // FIXME:
+                } else {
+                    console.log(name, 'Document data:', doc.data());
+                    // response.send(doc.data());  // FIXME: 
+                }
+                return;
+            })
+            .catch(err => {
+                console.log('Error getting document', err);
+            });
+    }
 
-	static userExist({ name }) {
-		var db = firebase.firestore(); const response = {};
-		/* let update = */ db.collection('users').doc('Dunton James').get()
-		  .then(doc => {
-		if (!doc.exists) {
-		  alert('No such document!');
-		  response.send('No such document!');
-		} else {
-		  console.log(name, 'Document data:', doc.data());
-		  response.send(doc.data());
-		}
-		return;
-	  })
-	  .catch(err => {
-		console.log('Error getting document', err);
-	  });
-	}
-
-}
-
-export {
-	SearchManager
 }

@@ -1,38 +1,28 @@
-// public class User{
+class MentorshipType {
+    static MENTEE = "MENTEE"
+    static MENTOR = "MENTOR"
+    static MENTOR_AND_MENTEE = "MENTOR_AND_MENTEE"
+}
+
 class User {
 	
-	// private String uName;
-	// private String pWord;
-	// private boolean mentor;
-	// private boolean mentee;
-	// private String field;
-	
-	// public User(String uName, String pWord){
-	//   this.uName = uName;
-	//   this.pWord = pWord;
-	//   mentor = false;
-	//   mentee = false;
-	//   fields = new String[5];
-	// }
-	
 	/**
-	* ...
-	* @param {String} uName 
-	* @param {String} pWord 
-	*/
-	constructor(uName, pWord) {
-		this.uName = uName;
-		this.pWord = pWord;
-		this.mentor = false;
-		this.mentee = false;
-		this.field = "";
-		this.exp = 0;
+     * 
+     * @param {*} username
+     * @param {*} password
+     */
+	constructor({ username, password, isMentee=true, isMentor=false, fields=[] }) {
+		this.username = username;
+		this.password = pWord;
+        this.mentorship = MentorshipType.MENTEE
+        if (isMentee)
+            this.mentorshipTitles.push(MentorshipType.MENTEE)
+        if (isMentor)
+            this.mentorshipTitles.push(MentorshipType.MENTOR)
+		this.fields = [];
 	}
 	
-	// public String getUname(){
-	//   return uName;
-	// }
-	getUname() {
+	getUsername() {
 		return this.uName;
 	}
 
@@ -57,30 +47,6 @@ class User {
 		this.mentee = !mentee;
 	}
 	
-	getMentor() {
-		return this.mentor;	
-	}
-	
-	getMentee() {
-		return this.mentee;	
-	}
-	
-	setField(field){
-		this.field = field;	
-	}
-	
-	getField(){
-		return this.field;	
-	}
-	
-	setExp(years){
-		this.exp = years;	
-	}
-	
-	getExp(){
-		return this.exp;	
-	}
-	
 	// public String toString(){
 	//   String str = "Username: " + uName + "\nPassword: " + pWord + "\n";
 	//   if(mentor){str += "Mentor\n";}
@@ -92,7 +58,6 @@ class User {
 		let str = "Username: " + this.uName + "\nPassword: " + this.pWord + "\n";
 		if(this.mentor){str += "Mentor\n";}
 		if(this.mentee){str += "Mentee\n";}
-		str += "Field: " + this.field + "n\Experience" + this.exp + "\n"
 		return str;
 	}
 }

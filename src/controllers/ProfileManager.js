@@ -1,14 +1,14 @@
-class ProfileManager {
+export class ProfileManager {
 	
 	/**
 	 * 
 	 */
-	// constructor({ /* ... */ }) {}
+	constructor({ /* ... */ }) {
 
-	editProfile() {}
+    }
 
-}
+	editProfile() {
+        
+    }
 
-export {
-	ProfileManager
 }

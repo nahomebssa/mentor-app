@@ -1,44 +1,32 @@
-/*
-function $(selector) {
+export function $(selector) {
 	return document.querySelector(selector)
 }
-function $$(selector) {
+export function $$(selector) {
 	return document.querySelectorAll(selector)
 }
 
-function assert(expression = true, failMsg = "") {
+export function assert(expression = true, failMsg = "") {
 	class AssertionError extends Error { constructor(msg) { super(msg) } }
 	if (!expression)
 		throw new AssertionError(`${failMsg}`)
 }
-*/
 
-const ENUM = obj => Object.freeze(obj)
+export const ENUM = obj => Object.freeze(obj)
 
 
-// const __DEBUG__ = true;
 const __DEBUG__ = false;
-let ALERT, DBG, ERR, ASSERT;
+let ALERT, DBG, ERR;
 if (__DEBUG__)
 {
 	ALERT = alert
 	DBG = console.log
 	ERR = console.error
-	ASSERT = console.assert
 }
 else
 {
 	ALERT = () => {}
 	DBG = () => {}
 	ERR = () => {}
-	ASSERT = () => {}
 }
 
-
-export {
-	DBG,
-	ALERT,
-	ERR,
-	ENUM,
-	ASSERT,
-}
+export { ALERT, DBG, ERR }
