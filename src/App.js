@@ -100,8 +100,8 @@ const AppLayout = ({ children, ...rest }) => {
 export default function App() {
     let basename;
     // basename = ""
-    // basename = "/mentor-app/app.html"
-    basename = "/dist/app.html"
+    basename = "/mentor-app/app.html"
+    // basename = "/dist/app.html"
     return (
         <>
             <BrowserRouter basename={basename}>

@@ -25,8 +25,8 @@ export class SearchManager {
         const collectionFilter = ['', '', '']
         const db = firebase.firestore()
         db.collection('users').where(...collectionFilter).get().catch(console.error).then(snap => {
-            snap.forEach(s => users.push(s))
-            console.log('users', users)
+            // snap.forEach(s => users.push(s))
+            // console.log('users', users)
         })
 
 
