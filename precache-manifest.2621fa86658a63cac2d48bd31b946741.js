@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "619320c446cd9b420c3f78bffc5b6154",
+    "revision": "19f640136a8bdc77676b458d6405cd31",
     "url": "/mentor-app/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/mentor-app/static/css/2.d9ad5f5c.chunk.css"
   },
   {
-    "revision": "b60e14a85d3e8eb8d1b5",
+    "revision": "0cf4c442f9d400af9c5e",
     "url": "/mentor-app/static/css/main.a27f4e1a.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/mentor-app/static/js/2.0587d9d5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "b60e14a85d3e8eb8d1b5",
-    "url": "/mentor-app/static/js/main.e16cc6ed.chunk.js"
+    "revision": "0cf4c442f9d400af9c5e",
+    "url": "/mentor-app/static/js/main.ab96ae18.chunk.js"
   },
   {
     "revision": "31b373cc560d2a2f0d53",
