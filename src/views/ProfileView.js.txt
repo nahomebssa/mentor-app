@@ -1,0 +1,102 @@
+// const ProfilePicture = ({ src = "#", name }) => (
+//     <img src={src} alt={name || "Profile picture"} style={{ flex: "1" }} />
+// );
+
+// const ProfileAttribute = (props) => (
+//     <div style={{ flex: "4", display: "flex", flexDirection: "column" }}>
+//         <p>{props.title || "<untitled attribute>"}</p>
+//         <input type={props.inputType || "text"} />
+//     </div>
+// );
+
+/* const ProfileForm = (props) => (
+	<div className="profile-form">
+		<input type="text" placeholder="Name" />
+		<textarea placeholder="Insert bio here..." />
+		<input className="btn" type="submit" value="Save changes" />
+	</div>
+) */
+
+class ProfileForm1 extends Component {
+    constructor(props) {
+        super(props);
+        const FNID = `[ProfileForm#constructor]`;
+        DBG(FNID, `props.profile: `, props.profile);
+        this.state = {
+            name: props.profile.name || "",
+            bio: props.profile.bio || "",
+        };
+        this.saveChanges = this.saveChanges.bind(this);
+    }
+
+    saveChanges() {
+        const FNID = `[ProfileForm#saveChanges]`;
+        // ALERT(`${FNID} SUCCESS \n${result}`)
+        // DBG(FNID, result)
+
+        const { name, bio } = this.state;
+        ALERT(`saving changes...\nname: ${name}\nbio: ${bio}`);
+
+        const user = firebase.auth().currentUser;
+        user.updateProfile({
+            displayName: this.state.name,
+            // photoURL: "https://example.com/jane-q-user/profile.jpg"
+        })
+            .then(function () {
+                // Update successful.
+                ALERT(`${FNID} updated profile`);
+            })
+            .catch(function (error) {
+                // An error happened.
+                ALERT(`${FNID} failed to update profile`);
+                DBG(FNID, error);
+            });
+    }
+
+    render() {
+        return (
+            <div className="profile-form">
+                <input
+                    type="text"
+                    placeholder="Name"
+                    value={this.state.name}
+                    onChange={(event) =>
+                        this.setState({ name: event.target.value })
+                    }
+                />
+                <textarea
+                    placeholder="Insert bio here..."
+                    value={this.state.bio}
+                    onChange={(event) =>
+                        this.setState({ bio: event.target.value })
+                    }
+                />
+                <input
+                    type="button"
+                    className="btn"
+                    onClick={(event) => {
+                        this.saveChanges();
+                    }}
+                    value="Save changes"
+                />
+            </div>
+        );
+    }
+}
+
+class ProfileForm extends Component {
+    constructor(props) {
+        super(props);
+        const { profile } = props;
+        this.state = {
+            iName: profile.name || "",
+            iUsername: profile.username || "",
+            iBio: profile.bio || "",
+            iEmail: profile.email || "",
+        };
+        this.saveChanges = this.saveChanges.bind(this);
+    }
+    render() {
+        return <div className="ProfileForm"></div>;
+    }
+}

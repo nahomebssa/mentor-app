@@ -1,38 +1,42 @@
-@import './styles.scss';
-@import './app.scss';
-@import './mobile.scss';
-@import './desktop.scss';
+@import "./styles.scss";
+@import "./app.scss";
+@import "./mobile.scss";
+@import "./desktop.scss";
 
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
 
 /* Reset */
 * {
-	margin: 0;
-	padding: 0;
-	font-family: "Manrope", sans-serif;
-	user-select: none;
-	// overflow: hidden;
+    margin: 0;
+    padding: 0;
+    font-family: "Manrope", sans-serif;
+    // user-select: none;
+    // overflow: hidden;
 }
-html, body { height: 100%; }
+html,
+body {
+    height: 100%;
+}
 // mobile look
-@media only screen and (min-width: 600px)
-{
-	body {
-		// max-width: 600px;
-		// margin: 0px auto;
-		// box-shadow: 0 2px 10px 0 rgba(0,0,0,0.5);
-		// box-sizing: border-box;
-		// position: relative;
-		// top: -30px;
-		padding: 0 30vw;
-	}
+@media only screen and (min-width: 600px) {
+    body {
+        // max-width: 600px;
+        // margin: 0px auto;
+        // box-shadow: 0 2px 10px 0 rgba(0,0,0,0.5);
+        // box-sizing: border-box;
+        // position: relative;
+        // top: -30px;
+        padding: 0 30vw;
+    }
 }
 
 /* HTML DOM body */
-body { display: flex; }
+body {
+    display: flex;
+}
 
 /* React DOM body */
 #root {
-	flex: 1;
-	display: flex;
+    flex: 1;
+    display: flex;
 }
